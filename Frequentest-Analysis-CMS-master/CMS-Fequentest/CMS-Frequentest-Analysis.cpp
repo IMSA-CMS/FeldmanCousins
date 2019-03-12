@@ -1,0 +1,293 @@
+// ConsoleApplication1.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <random>
+#include <chrono>
+#include <cmath>
+#include <string>
+#include <sstream>
+#include <array>
+#include <fstream>
+#include <vector>
+#include <limits>
+#include "csvConverter.h"
+
+//Factorial Function
+
+double long factorial(int number) {
+	double long answer = 1;
+	for (int i = 1; i<number + 1; i++) {
+		answer = answer*i;
+	}
+	return answer;
+}
+
+//Given the parameters, a bin number, and a limit, calculates mu.
+
+double newmufunction(std::vector<double> params, int munumber, float Beta) {
+	double newmu = params[9 * munumber + 2] + params[9 * munumber + 3] * Beta + params[9 * munumber + 4] * Beta*Beta + params[9 * munumber + 5] + params[9 * munumber + 6];
+	return newmu;
+}
+
+//Generates a Pseudoexperiment given a mean (mu) value
+
+int PE_Generator(double mean)
+{
+	std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
+	std::poisson_distribution<int> distribution(mean);
+	int number = distribution(generator);
+	return number;
+}
+
+//Generates the Observed Values from the Parameters
+
+std::vector<float> ObservedGenerator(std::vector<double> params) {
+	std::vector<float> observed;
+	for (int i = 0; i<params.size() / 9; i++) {
+		observed.push_back(params[9 * i + 7]);
+	}
+	return observed;
+}
+
+std::vector<float> BackgroundGenerator(std::vector<double> params) {
+	std::vector<float> background;
+	for (int i = 0; i<params.size() / 9; i++) {
+		background.push_back(params[9 * i + 5] + params[9 * i + 6]);
+	}
+	return background;
+}
+
+//New Ln(Likelihood Function) Approximation by Stirling
+
+double NEW_LN_Likelihood_Function(float Limit, std::vector<double> params, std::vector<float> PEvector) {
+	std::vector<double> muvector;
+	double likelihood = 0;
+	for (int i = 0; i<params.size() / 9; i++) {
+		double mu = newmufunction(params, i, Limit);
+		muvector.push_back(mu);
+		if (PEvector[i] != 0) {
+			likelihood = likelihood + PEvector[i] * std::log(muvector[i]) - muvector[i] - PEvector[i] * std::log(PEvector[i]) + PEvector[i];
+		}
+		if (PEvector[i] == 0) {
+			likelihood = likelihood - std::log(factorial(PEvector[i])) + PEvector[i] * std::log(muvector[i]) - muvector[i];
+		}
+	}
+	return likelihood;
+}
+
+//Finds the Likelihood of just the background.
+
+double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::vector<float> PEvector) {
+	double likelihood = 0;
+	std::vector<float> muvector = BackgroundGenerator(params);
+	for (int i = 0; i<params.size() / 9; i++) {
+		if (PEvector[i] != 0) {
+			likelihood = likelihood + PEvector[i] * std::log(muvector[i]) - muvector[i] - PEvector[i] * std::log(PEvector[i]) + PEvector[i];
+		}
+		if (PEvector[i] == 0) {
+			likelihood = likelihood - std::log(factorial(PEvector[i])) + PEvector[i] * std::log(muvector[i]) - muvector[i];
+		}
+		if (muvector[i] == 0) {
+			std::cout << "ERROR: Background of 0 not allowed" << std::endl;
+		}
+	}
+	return likelihood;
+}
+
+//Sorts vectors of floats by their last elements.
+
+bool VectorSortingAlg(std::vector<float> i, std::vector<float> j) {
+	return(i.back()<j.back());
+}
+
+//std::vector<float> Center_Of_Mass(std::vector<std::vector<float>> Region, std::vector<float> Observed) {
+//	std::vector<float> COM;
+//	for (int i = 0; i<Observed.size(); i++) {
+//		float total = 0;
+//		for (int j = 0; j<Region.size(); j++) {
+//			total = total + Region[j][i];
+//		}
+//		total = total / Region.size();
+//		COM.push_back(total);
+//	}
+//	return COM;
+//}
+//
+//float DistanceFunction(std::vector<float> Point, std::vector<float> Observed) {
+//	float distance = 0;
+//	for (int i = 0; i<Observed.size(); i++) {
+//		distance = distance + (Point[i] - Observed[i])*(Point[i] - Observed[i]);
+//	}
+//	return distance;
+//}
+//
+//std::vector<float> NormalVector(std::vector<float> COM, std::vector<float> NearObserved) {
+//	std::vector<float> Normal;
+//	for (int i = 0; i<COM.size(); i++) {
+//		Normal.push_back(COM[i] - NearObserved[i]);
+//	}
+//	return Normal;
+//}
+//
+//float constant_term(std::vector<float> Normal, std::vector<float> NearObserved) {
+//	float constantterm = 0;
+//	for (int i = 0; i<Normal.size(); i++) {
+//		constantterm = constantterm + Normal[i] * NearObserved[i];
+//	}
+//	return constantterm;
+//}
+
+
+// //Given an L, returns the 95% bound for the FOMs using the other functions
+
+int NEW_ninetyfivepercentgenerator(float LimitGuess, std::vector<double> params) {
+	int PEnumber = 10000;
+	float fivep = 0.05*PEnumber;
+	int binnumber = params.size() / 9;
+	int closepointnumber = binnumber * 10;
+	float pointdistance = 0;
+	//std::vector<float> finalrange;
+	std::vector<std::vector<float> > CoupledNvector(PEnumber);
+	std::vector<std::vector<float> > CloseNvector(closepointnumber);
+	std::vector<std::vector<float> > Nvector(PEnumber);
+	//std::vector<float> DistanceVector;
+	int bad = 1;
+	for (int i = 0; i<PEnumber; i++) {
+		Nvector[i].resize(binnumber);
+		CoupledNvector[i].resize(binnumber + 1);
+		CloseNvector.resize(binnumber + 1);
+		for (int j = 0; j<binnumber; j++) {
+			Nvector[i][j] = PE_Generator(newmufunction(params, j, LimitGuess));
+			CoupledNvector[i][j] = Nvector[i][j];
+		}
+		CoupledNvector[i][binnumber] = NEW_LN_Likelihood_Function(LimitGuess, params, Nvector[i]) - NEW_LN_Likelihood_Function_Background(params, Nvector[i]);
+		//std::cout << Nvector[i][0] << std::endl;
+		//std::cout << NEW_LN_Likelihood_Function(LimitGuess, params, Nvector[i]) << std::endl;
+		//std::cout << NEW_LN_Likelihood_Function_Background(params, Nvector[i]) << std::endl;
+	}
+	std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
+	CoupledNvector.erase(CoupledNvector.begin(), CoupledNvector.begin() + (int)fivep);
+		for (int i = 0; i < CoupledNvector.size(); i++) {
+			float distance = 0;
+			for (int j = 0; j < CoupledNvector[i].size()-1; j++) {
+				distance = (ObservedGenerator(params)[j] - CoupledNvector[i][j])*(ObservedGenerator(params)[j] - CoupledNvector[i][j]);
+			}
+			CoupledNvector[i][binnumber] = distance;
+		}
+		std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
+		for (int i = 0; i < closepointnumber; i++) {
+			float distance = 0;
+			for (int j = 0; j < binnumber; j++) {
+				CloseNvector[i][j] = CoupledNvector[CoupledNvector.size() - i - 1][j];
+				distance = distance + CloseNvector[i][j] * CloseNvector[i][j];
+			}
+			CloseNvector[i][binnumber] = distance;
+		}		
+		for (int i = 0; i < binnumber; i++) {
+			pointdistance = pointdistance + ObservedGenerator(params)[i] * ObservedGenerator(params)[i];
+		}
+
+		std::sort(CloseNvector.begin(), CloseNvector.end(), VectorSortingAlg);
+		if (CloseNvector[closepointnumber-1][binnumber] > pointdistance) {
+			bad = 1;
+		}
+				//for (int j = 0; j < binnumber; j++) {
+				//	for (int i = 0; i < CoupledNvector.size(); i++) {
+				//		CoupledNvector[i][binnumber] = CoupledNvector[i][j];
+				//	}
+				//	std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
+				//	if (CoupledNvector[0][j] > ObservedGenerator(params)[j] || CoupledNvector.back()[j] < ObservedGenerator(params)[j]) {
+				//		bad = 0;
+				//		//std::cout << ObservedGenerator(params)[j] << std::endl;
+				//		//std::cout << CoupledNvector[0].back() << std::endl;
+				//		//std::cout << CoupledNvector.back().back() << std::endl;
+				//	}
+				//	//std::cout << CoupledNvector[0][j] << "            " << CoupledNvector.back()[j] << "           " << ObservedGenerator(params)[j] << std::endl;
+				//}
+	//for (int i = 0; i<PEnumber - (int)fivep; i++) {
+	//	CoupledNvector[i][binnumber] = DistanceFunction(Nvector[i], ObservedGenerator(params));
+	//}
+	//std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
+	//float firstcomparison = 0;
+	//for (int i = 0; i<ObservedGenerator(params).size(); i++) {
+	//	firstcomparison = firstcomparison + NormalVector(Center_Of_Mass(CoupledNvector, ObservedGenerator(params)), CoupledNvector[0])[i] * CoupledNvector[1][i];
+	//}
+	//std::cout << "firstcomparison: " << firstcomparison << std::endl;
+	//bool edge = true;
+	//for (int i = 0; i<PEnumber - (int)fivep; i++) {
+	//	float comparison = 0;
+	//	for (int j = 0; j<ObservedGenerator(params).size(); j++) {
+	//		comparison = comparison + NormalVector(Center_Of_Mass(CoupledNvector, ObservedGenerator(params)), CoupledNvector[0])[j] * CoupledNvector[i][j];
+			//std::cout << NormalVector(Center_Of_Mass(CoupledNvector), CoupledNvector[0])[j];
+			//std::cout << Center_Of_Mass(CoupledNvector)[0];
+	//	}
+		//std::cout << "comparison: " << comparison << std::endl;
+	//	if (comparison / firstcomparison < 0) {
+	//		edge = false;
+	//	}
+	//}
+	//   for(int i=0; i<PEnumber-(int)fivep; i++){
+	//   float distancesquared=0;
+	//   for(int j=0; j<binnumber; j++){
+	//     distancesquared = distancesquared+CoupledNvector[i][j]*CoupledNvector[i][j];      
+	//   }
+	//   DistanceVector.push_back(std::sqrt(distancesquared));
+	// }
+	// std::sort(DistanceVector.begin(), DistanceVector.end());
+	// finalrange.push_back(DistanceVector[0]);
+	// finalrange.push_back(DistanceVector.back());
+	//return(finalrange);
+	return(bad);
+}
+
+int main()
+{
+
+	std::ifstream in;
+	in.open("BinData.csv");
+	std::ofstream out;
+	out.open("outTest.txt");
+	allBins(in, out);
+
+	/*
+	std::string line;
+	std::vector<double> parametervector;
+	std::fstream parameterfile;
+	parameterfile.open("testtocompare.txt");
+	while (std::getline(parameterfile, line)) {
+		parametervector.push_back(std::stod(line));
+	}
+	double nfpercentaim = 0;
+	//for(int i=0; i<parametervector.size()/9; i++){
+	//  nfpercentaim = nfpercentaim + ObservedGenerator(parametervector)[i]*ObservedGenerator(parametervector)[i];
+	//}
+	//nfpercentaim = std::sqrt(nfpercentaim);
+	float lowerLimit = 115;
+	float upperLimit = 120;
+	float numberOfSegments = 50;
+	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
+	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
+	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
+	//std::cout << "Lambda = 7.31 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[1] << std::endl;
+	//std::cout << "Lambda = 7.76 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[1] << std::endl;
+	for (int i = 0; i<numberOfSegments; i++) {
+		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector) << std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
+	}
+	return 0;
+	*/
+}
+
+
+
+//EE BB Lambda 10 DesLL
+//		Frequentist		Bayesian
+//		 15.47			21.14
+//
+//BIN 1: 7.01			4.02
+//BIN 2: 11.97			6.40
+//BIN 3: 11.26			9.50
+//BIN 4: 15.90			15.78
+//BIN 5: 19.94			20.71
+//BIN 6: 14.57			16.21
