@@ -282,6 +282,12 @@ std::vector<float> find_Largest_By_Index(std::vector<std::vector<float>> data, i
 	return out;
 }
 
+std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> matrix)
+{
+	std::vector<float> out;
+	return out;
+}
+
 int main()
 {
 

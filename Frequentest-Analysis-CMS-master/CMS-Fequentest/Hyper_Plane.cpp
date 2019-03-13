@@ -13,7 +13,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet)
 	{
 		points.push_back(find_Smallest_By_Index(adataSet, i));
 	}
-	
+	std::vector<float> ortho = guassian_Elimination(points);
 
 }
 
