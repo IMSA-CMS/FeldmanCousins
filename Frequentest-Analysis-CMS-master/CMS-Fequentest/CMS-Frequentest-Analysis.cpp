@@ -12,7 +12,7 @@
 #include <fstream>
 #include <vector>
 #include <limits>
-#include "csvConverter.h"
+#include "CMS-Frequentest-Analysis.h"
 
 //Factorial Function
 
@@ -245,13 +245,8 @@ int NEW_ninetyfivepercentgenerator(float LimitGuess, std::vector<double> params)
 int main()
 {
 
-	std::ifstream in;
-	in.open("BinData.csv");
-	std::ofstream out;
-	out.open("outTest.txt");
-	allBins(in, out);
 
-	/*
+
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
@@ -276,7 +271,6 @@ int main()
 		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector) << std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
 	}
 	return 0;
-	*/
 }
 
 
