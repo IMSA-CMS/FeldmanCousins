@@ -28,6 +28,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet)
 		if (org)
 		{
 			origin = true;
+			break;
 		}
 	}
 	if (org != true)
@@ -44,8 +45,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet,
 	points = base_Points;
 	const int SIZE_OF_DATA_SET = adataSet.size();
 	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
-	std::vector<float> ortho = guassian_Elimination(points);
-	orthogonalVector = make_Unit_Vector(ortho);
+	std::vector<float> orthogonalVector = guassian_Elimination(points);
 	if (find_Smallest_By_Index(base_Points, 0)[0] < base.smallest_Point()[0])
 	{
 		if (orthogonalVector[0] > 0)
@@ -90,7 +90,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet,
 
 std::vector<float> Hyper_Plane::smallest_Point()
 {
-	return find_Smallest_By_Index(points, 0);
+	return find_Smallest_By_Index(points, 0); 
 }
 
 
@@ -136,6 +136,7 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 	const int SIZE_OF_DATA_SET = dataSet.size();
 	float dist = 0;
 	std::vector<float> point;
+	std::vector<Hyper_Plane> out;
 	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
 	{
 		if (check_Point_Outside(dataSet[i]))
@@ -147,8 +148,21 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 			}
 		}
 	}
-	// Run through every permunation of points of size points.size()-1 and make a vector of Hyper_Plane with 
-	// Hyper_Plane of that permutation of points, this base and referenct to dataSet
+	std::vector<std::vector<float>> outPoints;
+	for (std::size_t i = 0; i < points.size(); ++i)
+	{
+		for (std::size_t j = 0; j < points.size(); ++j)
+		{
+			if (i != j)
+			{
+				outPoints.push_back(points[j]);
+			}
+		}
+		outPoints.push_back(point);
+		out.push_back(Hyper_Plane(dataSet, outPoints, *this));
+		std::vector<std::vector<float>> outPoints;
+	}
+	return out;
 }
 
 Hyper_Plane::~Hyper_Plane()
