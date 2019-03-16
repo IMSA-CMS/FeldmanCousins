@@ -126,7 +126,7 @@ bool Hyper_Plane::check_Point_Outside(std::vector<float> point)
 	}
 }
 
-double Hyper_Plane::dist_To_Point(std::vector<float> point)
+double Hyper_Plane::dist_To_Point(std::vector<float> point) // STILL NEEDS IMPLIMENTATION
 {
 	return 1;
 }
@@ -162,9 +162,9 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 		out.push_back(Hyper_Plane(dataSet, outPoints, *this));
 		std::vector<std::vector<float>> outPoints;
 	}
+	delete this;
 	return out;
 }
 
 Hyper_Plane::~Hyper_Plane()
-{
-}
+{}
