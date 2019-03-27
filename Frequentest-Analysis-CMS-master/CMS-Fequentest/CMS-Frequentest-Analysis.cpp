@@ -242,6 +242,52 @@ int NEW_ninetyfivepercentgenerator(float LimitGuess, std::vector<double> params)
 	return(bad);
 }
 
+std::vector<float> find_Smallest_By_Index(std::vector<std::vector<float>> data, int index)
+{
+	std::vector<float> out;
+	for (std::size_t i = 0; i < data.size(); ++i)
+	{
+		if (i == 0)
+		{
+			out = data[i];
+		}
+		else
+		{
+			if (data[i][index] < out[index])
+			{
+				out = data[i];
+			}
+		}
+	}
+	return out;
+}
+
+std::vector<float> find_Largest_By_Index(std::vector<std::vector<float>> data, int index)
+{
+	std::vector<float> out;
+	for (std::size_t i = 0; i < data.size(); ++i)
+	{
+		if (i == 0)
+		{
+			out = data[i];
+		}
+		else
+		{
+			if (data[i][index] > out[index])
+			{
+				out = data[i];
+			}
+		}
+	}
+	return out;
+}
+
+std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> matrix)
+{
+	std::vector<float> out;
+	return out;
+}
+
 int main()
 {
 

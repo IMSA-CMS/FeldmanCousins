@@ -28,3 +28,12 @@ bool VectorSortingAlg(std::vector<float> i, std::vector<float> j);
 
 //
 int NEW_ninetyfivepercentgenerator(float LimitGuess, std::vector<double> params);
+
+//Finds the vector with the smallest index from a vector of vectors
+std::vector<float> find_Smallest_By_Index(std::vector<std::vector<float>> data, int index);
+
+//Finds the vector with the smallest index from a vector of vectors
+std::vector<float> find_Largest_By_Index(std::vector<std::vector<float>> data, int index);
+
+//Takes an input "matrix" and outputs a solution vector via guassian elimination
+std::vector<float> guassian_Elimination(std::vector<std::vector<float>> matrix);
