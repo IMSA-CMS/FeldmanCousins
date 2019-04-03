@@ -290,9 +290,6 @@ std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> matrix)
 
 int main()
 {
-
-
-
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
