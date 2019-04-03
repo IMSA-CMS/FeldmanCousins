@@ -13,7 +13,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet)
 	{
 		points.push_back(find_Smallest_By_Index(adataSet, i));
 	}
-	std::vector<float> orthogonalVector = guassian_Elimination(points);
+	std::vector<float> orthogonalVector = gaussian_Elimination(points);
 	bool org;
 	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
 	{
@@ -45,7 +45,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet,
 	points = base_Points;
 	const int SIZE_OF_DATA_SET = adataSet.size();
 	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
-	std::vector<float> orthogonalVector = guassian_Elimination(points);
+	std::vector<float> orthogonalVector = gaussian_Elimination(points);
 	if (find_Smallest_By_Index(base_Points, 0)[0] < base.smallest_Point()[0])
 	{
 		if (orthogonalVector[0] > 0)
@@ -98,7 +98,7 @@ bool Hyper_Plane::check_Point_Outside(std::vector<float> point)
 {
 	const int NUMBER_OF_DIMENSIONS = dataSet[0].size();
 	float sum = 0;
-	for (std::size_t i; i < NUMBER_OF_DIMENSIONS; ++i)
+	for (std::size_t i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
 		sum += point[i] * orthogonalVector[i];
 	}
