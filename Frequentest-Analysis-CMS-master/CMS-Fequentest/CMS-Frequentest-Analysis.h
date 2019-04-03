@@ -27,7 +27,7 @@ double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::ve
 bool VectorSortingAlg(std::vector<double> i, std::vector<double> j);
 
 //
-int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params);
+bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params);
 
 //Finds the vector with the smallest index from a vector of vectors
 std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data, int index);

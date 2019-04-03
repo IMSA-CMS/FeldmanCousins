@@ -12,6 +12,7 @@
 #include <fstream>
 #include <vector>
 #include <limits>
+#include "Hyper_Surface.h"
 #include "CMS-Frequentest-Analysis.h"
 
 //Factorial Function
@@ -142,7 +143,7 @@ bool VectorSortingAlg(std::vector<double> i, std::vector<double> j) {
 
 // //Given an L, returns the 95% bound for the FOMs using the other functions
 
-int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params) {
+bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params) {
 	int PEnumber = 10000;
 	double fivep = 0.05*PEnumber;
 	int binnumber = params.size() / 9;
@@ -169,6 +170,20 @@ int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params
 	}
 	std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
 	CoupledNvector.erase(CoupledNvector.begin(), CoupledNvector.begin() + (int)fivep);
+	std::vector<std::vector<double>> dataSet;
+	std::vector<double> temp;
+	for (std::size_t i = 0; i < CoupledNvector.size(); ++i)
+	{
+		for (std::size_t j = 0; j < CoupledNvector[0].size()-1; ++j)
+		{
+			temp.push_back(CoupledNvector[i][j]);
+		}
+		dataSet.push_back(temp);
+		temp.clear();
+	}
+	Hyper_Surface surface(dataSet);
+	surface.make_Surface();
+	return surface.point_Is_In(ObservedGenerator(params));
 	/*	for (int i = 0; i < CoupledNvector.size(); i++) {
 			double distance = 0;
 			for (int j = 0; j < CoupledNvector[i].size()-1; j++) {
@@ -193,7 +208,8 @@ int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params
 	//	if (CloseNvector[closepointnumber-1][binnumber] > pointdistance) {
 		//	bad = 1;
 	//	}
-				for (int j = 0; j < binnumber; j++) {
+
+			/*	for (int j = 0; j < binnumber; j++) {
 					for (int i = 0; i < CoupledNvector.size(); i++) {
 						CoupledNvector[i][binnumber] = CoupledNvector[i][j];
 					}
@@ -205,7 +221,7 @@ int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params
 						//std::cout << CoupledNvector.back().back() << std::endl;
 					}
 					std::cout << CoupledNvector[0][j] << "            " << CoupledNvector.back()[j] << "           " << ObservedGenerator(params)[j] << std::endl;
-				}
+				}*/
 	//for (int i = 0; i<PEnumber - (int)fivep; i++) {
 	//	CoupledNvector[i][binnumber] = DistanceFunction(Nvector[i], ObservedGenerator(params));
 	//}
@@ -239,7 +255,7 @@ int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params
 	// finalrange.push_back(DistanceVector[0]);
 	// finalrange.push_back(DistanceVector.back());
 	//return(finalrange);
-	return(bad);
+	//return(bad);
 }
 
 std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data, int index)
