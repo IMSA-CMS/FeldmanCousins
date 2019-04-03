@@ -90,7 +90,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<float>>& adataSet,
 
 std::vector<float> Hyper_Plane::smallest_Point()
 {
-	return find_Smallest_By_Index(points, 0); 
+	return find_Smallest_By_Index(points, 0);
 }
 
 
@@ -126,10 +126,25 @@ bool Hyper_Plane::check_Point_Outside(std::vector<float> point)
 	}
 }
 
-double Hyper_Plane::dist_To_Point(std::vector<float> point) // STILL NEEDS IMPLIMENTATION
+double Hyper_Plane::dist_To_Point(std::vector<float> point)
 {
-	return 1;
+	const int NUMBER_OF_DIMENSIONS = orthogonalVector.size();
+	double numerator = 0;
+	double denominator = 0;
+	for (std::size_t i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
+	{
+		numerator += orthogonalVector[i] * point[i];
+		denominator += pow(orthogonalVector[i], 2);
+	}
+	if (!origin)  //If the origin is a part of this plane the constant term is 0 and all terms are already included
+	{
+		numerator -= 1;    //Equation is in the form Ax_1+bx_2...=1 so when put in the equation of the form Ax_1+Bx_2...+N=0 we get that N=-1
+	}
+	numerator = abs(numerator);
+	denominator = sqrt(denominator);
+	return numerator / denominator;
 }
+
 
 std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 {
