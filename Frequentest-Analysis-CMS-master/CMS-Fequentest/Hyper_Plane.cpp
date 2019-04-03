@@ -152,6 +152,7 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 	double dist = 0;
 	std::vector<double> point;
 	std::vector<Hyper_Plane> out;
+	// Finds the new point by finding the furthest away point from this plane
 	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
 	{
 		if (check_Point_Outside(dataSet[i]))
@@ -168,12 +169,12 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 	{
 		for (std::size_t j = 0; j < points.size(); ++j)
 		{
-			if (i != j)
+			if (i != j)  //Gives every set of n-1 points among current points
 			{
 				outPoints.push_back(points[j]);
 			}
 		}
-		outPoints.push_back(point);
+		outPoints.push_back(point);  //Adds the new point
 		out.push_back(Hyper_Plane(dataSet, outPoints, *this));
 		std::vector<std::vector<double>> outPoints;
 	}
