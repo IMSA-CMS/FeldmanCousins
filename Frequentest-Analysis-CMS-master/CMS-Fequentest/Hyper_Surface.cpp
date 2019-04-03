@@ -30,7 +30,7 @@ void Hyper_Surface::make_Surface()
 	{
 		for (std::size_t i = 0; i < planeSet.size(); ++i)
 		{
-			tempSet = planeSet[i].expand_Surface;
+			tempSet[i] = planeSet[i].expand_Surface();
 		}
 		planeSet.clear();
 		for (std::size_t j = 0; j < tempSet.size(); ++j)

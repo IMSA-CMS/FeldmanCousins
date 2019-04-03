@@ -1,0 +1,47 @@
+﻿  CMS-Frequentest-Analysis.cpp
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(38): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=std::chrono::system_clock::rep
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(49): warning C4244: 'argument': conversion from '_Ty' to 'const _Ty', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Ty=float
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(57): warning C4244: 'argument': conversion from '_Ty' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+          and
+          [
+              _Ty=float
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(74): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(90): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(147): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(148): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(162): warning C4244: '=': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(165): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+  CMS-Frequentest-Analysis.vcxproj -> C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe
