@@ -2,7 +2,7 @@
 #include "Hyper_Surface.h"
 
 
-Hyper_Surface::Hyper_Surface(std::vector<std::vector<float>> adataSet):
+Hyper_Surface::Hyper_Surface(std::vector<std::vector<double>> adataSet):
 	dataSet(adataSet)
 {}
 
@@ -44,7 +44,7 @@ void Hyper_Surface::make_Surface()
 	}
 }
 
-bool Hyper_Surface::point_Is_In(std::vector<float> point)
+bool Hyper_Surface::point_Is_In(std::vector<double> point)
 {
 	bool inside = true;
 	for (std::size_t i = 0; i < NUMBER_OF_PLANES; ++i)
@@ -60,7 +60,7 @@ bool Hyper_Surface::point_Is_In(std::vector<float> point)
 void Hyper_Surface::clear_Points()
 {
 	const int NUMBER_OF_DATA_POINTS = dataSet.size();
-	std::vector<std::vector<float>> newSet;
+	std::vector<std::vector<double>> newSet;
 	for (std::size_t i = 0; i < NUMBER_OF_DATA_POINTS; ++i)
 	{
 		if (!point_Is_In(dataSet[i]))

@@ -6,34 +6,34 @@
 double long factorial(int number);
 
 //Given the parameters, a bin number, and a limit, calculates mu.
-double newmufunction(std::vector<double> params, int munumber, float Beta);
+double newmufunction(std::vector<double> params, int munumber, double Beta);
 
 //Generates a Pseudoexperiment given a mean (mu) value
 int PE_Generator(double mean);
 
 //Generates the Observed Values from the Parameters
-std::vector<float> ObservedGenerator(std::vector<double> params);
+std::vector<double> ObservedGenerator(std::vector<double> params);
 
 //
-std::vector<float> BackgroundGenerator(std::vector<double> params);
+std::vector<double> BackgroundGenerator(std::vector<double> params);
 
 //New Ln(Likelihood Function) Approximation by Stirling
-double NEW_LN_Likelihood_Function(float Limit, std::vector<double> params, std::vector<float> PEvector);
+double NEW_LN_Likelihood_Function(double Limit, std::vector<double> params, std::vector<double> PEvector);
 
 //Finds the Likelihood of just the background.
-double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::vector<float> PEvector);
+double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::vector<double> PEvector);
 
-//Sorts vectors of floats by their last elements.
-bool VectorSortingAlg(std::vector<float> i, std::vector<float> j);
+//Sorts vectors of doubles by their last elements.
+bool VectorSortingAlg(std::vector<double> i, std::vector<double> j);
 
 //
-int NEW_ninetyfivepercentgenerator(float LimitGuess, std::vector<double> params);
+int NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params);
 
 //Finds the vector with the smallest index from a vector of vectors
-std::vector<float> find_Smallest_By_Index(std::vector<std::vector<float>> data, int index);
+std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data, int index);
 
 //Finds the vector with the smallest index from a vector of vectors
-std::vector<float> find_Largest_By_Index(std::vector<std::vector<float>> data, int index);
+std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data, int index);
 
 //Takes an input "matrix" and outputs a solution vector via guassian elimination
-std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> matrix);
+std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix);
