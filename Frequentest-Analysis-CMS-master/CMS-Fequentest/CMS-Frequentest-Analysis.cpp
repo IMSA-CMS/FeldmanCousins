@@ -144,7 +144,7 @@ bool VectorSortingAlg(std::vector<double> i, std::vector<double> j) {
 // //Given an L, returns the 95% bound for the FOMs using the other functions
 
 bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params) {
-	int PEnumber = 10000;
+	int PEnumber = 10;
 	double fivep = 0.05*PEnumber;
 	int binnumber = params.size() / 9;
 	int closepointnumber = binnumber * 10;
@@ -181,6 +181,7 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 		dataSet.push_back(temp);
 		temp.clear();
 	}
+	std::cout << temp[0] << std::endl;
 	Hyper_Surface surface(dataSet);
 	surface.make_Surface();
 	return surface.point_Is_In(ObservedGenerator(params));

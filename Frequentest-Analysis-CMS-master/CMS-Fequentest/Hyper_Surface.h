@@ -6,8 +6,8 @@ class Hyper_Surface
 private:
 	std::vector<std::vector<double>> dataSet;
 	std::vector<Hyper_Plane> planeSet;
-	const int NUMBER_OF_DATA_POINTS = dataSet.size();
-	int NUMBER_OF_PLANES = planeSet.size();
+	
+	
 public:
 	Hyper_Surface(std::vector<std::vector<double>> adataSet);
 	~Hyper_Surface();
