@@ -3,7 +3,7 @@
 #include "CMS-Frequentest-Analysis.h"
 
 
-Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet, int oriant)
+Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet, int orient)
 {
 	basePlane = true;
 	const int SIZE_OF_DATA_SET = adataSet.size();
@@ -14,7 +14,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet, int oriant)
 		points.push_back(find_Largest_By_Index(adataSet, i));
 	}
 	std::vector<double> orthogonalVector = gaussian_Elimination(points);
-	if (oriant < 0)
+	if (orient < 0)
 	{
 		int j = 0;
 		while (j < orthogonalVector.size())
