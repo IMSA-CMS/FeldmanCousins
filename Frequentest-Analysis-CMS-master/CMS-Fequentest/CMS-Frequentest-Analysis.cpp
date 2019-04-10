@@ -282,10 +282,58 @@ std::vector<float> find_Largest_By_Index(std::vector<std::vector<float>> data, i
 	return out;
 }
 
-std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> matrix) // in need of implementation
+std::vector<float> gaussian_Elimination(std::vector<std::vector<float>> a) // in need of implementation
 {
+	int i, j, k, n;
+	float a[10][10] = { 0 }, d;
+	n = a.size();
 	std::vector<float> out;
-	return out;
+	/************** partial pivoting **************/
+	for (i = n; i > 1; i--)
+	{
+		if (a[i - 1][1] < a[i][1])
+			for (j = 1; j <= n * 2; j++)
+			{
+				d = a[i][j];
+				a[i][j] = a[i - 1][j];
+				a[i - 1][j] = d;
+			}
+	}
+	/*cout << "pivoted output: " << endl;
+	for (i = 1; i <= n; i++)
+	{
+		for (j = 1; j <= n * 2; j++)
+			cout << a[i][j] << "    ";
+		cout << endl;
+	}
+	/********** reducing to diagonal  matrix ***********/
+
+	for (i = 1; i <= n; i++)
+	{
+		for (j = 1; j <= n * 2; j++)
+			if (j != i)
+			{
+				d = a[j][i] / a[i][i];
+				for (k = 1; k <= n * 2; k++)
+					a[j][k] -= a[i][k] * d;
+			}
+	}
+	/************** reducing to unit matrix *************/
+	for (i = 1; i <= n; i++)
+	{
+		d = a[i][i];
+		for (j = 1; j <= n * 2; j++)
+			a[i][j] = a[i][j] / d;
+	}
+
+	//cout << "your solutions: " << endl;
+	for (i = 1; i <= n; i++)
+	{
+		for (j = n + 1; j <= n * 2; j++)
+		//cout << a[i][j] << "    ";
+		//cout << endl;
+		out[i] = 
+	}
 }
 
 int main()
