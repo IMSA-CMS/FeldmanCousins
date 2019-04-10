@@ -1,77 +1,21 @@
-﻿  stdafx.cpp
-  CMS-Frequentest-Analysis.cpp
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(38): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
-          with
-          [
-              _Rep=std::chrono::system_clock::rep
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(49): warning C4244: 'argument': conversion from '_Ty' to 'const _Ty', possible loss of data
-          with
-          [
-              _Ty=double
-          ]
-          and
-          [
-              _Ty=float
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(57): warning C4244: 'argument': conversion from '_Ty' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=double
-          ]
-          and
-          [
-              _Ty=float
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(74): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(90): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(147): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(148): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(162): warning C4244: '=': conversion from 'int' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\cms-frequentest-analysis.cpp(165): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-  csvConverter.cpp
-  Hyper_Plane.cpp
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(10): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(10): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(14): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(46): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(47): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(99): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(99): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(103): warning C4244: '+=': conversion from '_Ty' to 'float', possible loss of data
-          with
-          [
-              _Ty=double
-          ]
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(131): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(131): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(151): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(151): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(161): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Hyper_Surface.cpp
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_surface.h(9): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_surface.h(10): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_surface.cpp(62): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\user\source\repos\feldmancousins2\frequentest-analysis-cms-master\cms-fequentest\hyper_surface.cpp(62): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-  Generating Code...
-  CMS-Frequentest-Analysis.vcxproj -> C:\Users\User\Source\Repos\FeldmanCousins2\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe
+﻿  Hyper_Plane.cpp
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(9): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(10): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(10): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(14): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(55): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(55): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(56): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(56): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(97): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(97): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(125): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(125): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(139): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(139): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(159): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(159): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(202): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\mvayn\source\repos\feldmancousins\frequentest-analysis-cms-master\cms-fequentest\hyper_plane.cpp(202): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+  CMS-Frequentest-Analysis.vcxproj -> C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe
