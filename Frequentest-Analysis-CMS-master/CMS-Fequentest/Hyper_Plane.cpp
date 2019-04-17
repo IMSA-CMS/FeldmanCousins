@@ -44,6 +44,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet, int orient)
 	{
 		origin = false;
 	}
+
 }
 
 Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet,

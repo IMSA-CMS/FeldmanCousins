@@ -307,6 +307,17 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix
 
 int main()
 {
+
+	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7} };
+	Hyper_Plane x(data);
+
+	std::vector<double> point = { 4,4,4 };
+
+	std::cout << x.dist_To_Point(point) << std::endl;
+
+	return 0;
+
+	/*
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
@@ -331,6 +342,7 @@ int main()
 		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector) << std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
 	}
 	return 0;
+	*/
 }
 
 
