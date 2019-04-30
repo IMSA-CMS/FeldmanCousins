@@ -37,3 +37,7 @@ std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data,
 
 //Takes an input "matrix" and outputs a solution vector via guassian elimination
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix);
+
+bool sortcol(const std::vector<int>& v1, const std::vector<int>& v2);
+
+void bubSort(std::vector<std::vector<double>>& data, int index);
