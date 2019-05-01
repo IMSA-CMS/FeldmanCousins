@@ -301,7 +301,16 @@ std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data,
 
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix) // in need of implementation
 {
+	std::vector<double> placeholder;
 	std::vector<double> out;
+	for (int i = 0; i < matrix.size() - 2; i++) {
+		if (matrix[])
+		for (int j = 0; j < matrix.size() - i - 1; j++) {
+			for (int k = 0; k < matrix.size() + 1; k++) {
+
+			}
+		}
+	}
 	return out;
 }
 
