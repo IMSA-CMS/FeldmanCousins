@@ -27,6 +27,7 @@ bool Hyper_Surface::check_If_More()
 void Hyper_Surface::make_Surface()
 {
 	planeSet.push_back(Hyper_Plane(dataSet));
+	Hyper_Plane basePlane = planeSet[0];
 	std::vector<std::vector<Hyper_Plane>> tempSet;
 	while (check_If_More())
 	{
@@ -42,7 +43,9 @@ void Hyper_Surface::make_Surface()
 				planeSet.push_back(tempSet[j][k]);
 			}
 		}
+		planeSet.push_back(basePlane);
 		clear_Points();
+		planeSet.pop_back();
 	}
 }
 

@@ -311,11 +311,13 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix
 bool sortcol(const std::vector<double>& v1, const std::vector<double>& v2) {
 	return v1[0] < v2[0];
 }
-std::vector<double> temp;
+
 void bubSort(std::vector<std::vector<double>>& data, int index)
 {
+	std::vector<double> temp;
 	for (std::size_t i = 0; i < sizeof(data[0])-1; ++i)
 	{
+
 		if (sortcol(data[i], data[i + 1]))
 		{
 			temp = data[i];

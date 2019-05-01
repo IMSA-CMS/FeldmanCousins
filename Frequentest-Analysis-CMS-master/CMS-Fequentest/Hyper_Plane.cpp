@@ -12,12 +12,8 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet)
 	bubSort(dataSet, 0);
 	for (std::size_t i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		points.push_back(dataSet[i]);
+		points.push_back(dataSet[i]);   //Having the largest n points in a dimension guarantees a plane on the outside 
 	}
-	
-	
-
-
 	std::vector<std::vector<double>> vectors;
 	std::vector<double> point = points[0];
 	std::vector<double> new_Point;
