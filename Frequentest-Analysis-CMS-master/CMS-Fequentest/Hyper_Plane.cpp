@@ -3,26 +3,30 @@
 #include "CMS-Frequentest-Analysis.h"
 
 
-Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet, int orient)
+Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet)
 {
 	basePlane = true;
 	const int SIZE_OF_DATA_SET = adataSet.size();
 	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
 	dataSet = adataSet;
+	bubSort(dataSet, 0);
 	for (std::size_t i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		points.push_back(find_Largest_By_Index(adataSet, i));
+		points.push_back(dataSet[i]);   //Having the largest n points in a dimension guarantees a plane on the outside 
 	}
-	std::vector<double> orthogonalVector = gaussian_Elimination(points);
-	if (orient < 0)
+	std::vector<std::vector<double>> vectors;
+	std::vector<double> point = points[0];
+	std::vector<double> new_Point;
+	for (std::size_t i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		int j = 0;
-		while (j < orthogonalVector.size())
+		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++i)
 		{
-			orthogonalVector[j] *= -1;
-			++j;
+			new_Point.push_back(points[i][j] - point[j]);
 		}
+		vectors.push_back(new_Point);
+		new_Point.clear();
 	}
+	orthogonalVector = gaussian_Elimination(vectors);
 	bool org;
 	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
 	{

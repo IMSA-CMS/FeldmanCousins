@@ -13,7 +13,7 @@ private:
 	bool origin;
 public:
 	//Creates the base Hyper_Plane
-	Hyper_Plane(std::vector<std::vector<double>>& adataSet, int orient = 1);
+	Hyper_Plane(std::vector<std::vector<double>>& adataSet);
 	//Creates a Hyper_Plane from another Hyper_Plane
 	Hyper_Plane(std::vector<std::vector<double>>& adataSet, std::vector<std::vector<double>> base_Points, Hyper_Plane base);
 	//Finds the distance between the Hyper_Plane and the point
