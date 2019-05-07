@@ -300,9 +300,115 @@ std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data,
 	return out;
 }
 
-std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix) // in need of implementation
+std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> inmatrix, int row1, int row2) {
+	std::vector<double> placeholder;
+	std::vector<std::vector<double>> matrix = inmatrix;
+	for (int i = 0; i < matrix.size(); i++) {
+		placeholder.push_back(matrix[i][row1]);
+		matrix[i][row1] = matrix[i][row2];
+		matrix[i][row2] = placeholder[i];
+	}
+	return matrix;
+}
+
+std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix) {
+	std::vector<std::vector<double>> outmatrix;
+	outmatrix.resize(matrix[0].size());
+	for (int i = 0; i < outmatrix.size(); i++)
+		outmatrix[i].resize(matrix.size());
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++) {
+			outmatrix[j][i] = matrix[i][j];
+		}
+	}
+	return outmatrix;
+}
+
+
+std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatrix, int row1, int row2, int zeroindex) {
+	std::vector<std::vector<double>> matrix = inmatrix;
+	double factor = matrix[zeroindex][row2] / matrix[zeroindex][row1];
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i][row2] = matrix[i][row2] - (factor * matrix[i][row1]);
+	}
+	return matrix;
+}
+
+ 
+
+std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) // in need of implementation
 {
-	std::vector<double> out;
+	std::vector<std::vector<double>> matrix = inmatrix;
+	matrix = Transpose(matrix);
+	std::vector<double> out(matrix.size());
+	bool nonZero = true;
+	for (int i = 0; i < matrix[0].size(); ++i)
+	{
+		if (matrix[i][i] == 0)
+		{
+			nonZero = false;
+			for (int j = i; j < matrix[0].size(); ++j)
+			{
+				if (matrix[i][j] != 0)
+				{
+					matrix = RowSwap(matrix, i, j);
+					nonZero = true;
+					break;
+				}
+			}
+		}
+		if (nonZero)
+		{
+			for (int j = i + 1; j < matrix[0].size(); ++j)
+			{
+				matrix = RowAdd(matrix, i, j, i);
+			}
+		}
+	}
+
+	std::vector<bool> pivots(matrix.size());
+	for (int i = 0; i < matrix[0].size(); ++i)
+	{
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			if (matrix[j][i] != 0)
+			{
+				pivots[j] = true;
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < pivots.size(); ++i)
+	{
+		if (!pivots[i])
+		{
+			out[i] = 1;
+			break;
+		}
+	}
+	double constant;
+	int firstNonZero;
+	for (int i = matrix[0].size() - 1; i >= 0; --i)
+	{
+		constant = 0;
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			constant += matrix[j][i] * out[j];
+		}
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			if (matrix[j][i] != 0)
+			{
+				firstNonZero = j;
+				break;
+			}
+		}
+		if (i != matrix[0].size() - 1 || firstNonZero != matrix.size() - 1)
+		{
+			out[firstNonZero] = -1 * (constant / matrix[firstNonZero][i]);
+		}
+	}
 	return out;
 }
 

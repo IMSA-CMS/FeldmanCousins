@@ -59,7 +59,19 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet,
 	points = base_Points;
 	const int SIZE_OF_DATA_SET = adataSet.size();
 	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
-	std::vector<double> orthogonalVector = gaussian_Elimination(points);
+	std::vector<std::vector<double>> vectors;
+	std::vector<double> point = points[0];
+	std::vector<double> new_Point;
+	for (std::size_t i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
+	{
+		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++i)
+		{
+			new_Point.push_back(points[i][j] - point[j]);
+		}
+		vectors.push_back(new_Point);
+		new_Point.clear();
+	}
+	orthogonalVector = gaussian_Elimination(vectors);
 	if (base.dot(orthogonalVector) < 0)
 	{
 		int j = 0;
