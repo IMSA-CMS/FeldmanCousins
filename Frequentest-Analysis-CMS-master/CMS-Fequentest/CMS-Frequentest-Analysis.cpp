@@ -336,7 +336,7 @@ std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatri
 
  
 
-std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) // in need of implementation
+std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) // Checked
 {
 	std::vector<std::vector<double>> matrix = inmatrix;
 	matrix = Transpose(matrix);
@@ -418,10 +418,12 @@ bool sortcol(const std::vector<double>& v1, const std::vector<double>& v2) {
 	return v1[0] < v2[0];
 }
 
-void bubSort(std::vector<std::vector<double>>& data, int index)
+void bubSort(std::vector<std::vector<double>>& data, int index)  //Checked
 {
 	std::vector<double> temp;
-	for (std::size_t i = 0; i < sizeof(data[0])-1; ++i)
+	int size = data[0].size();
+	bool flip = false;
+	for (int i = 0; i < size-1; ++i)
 	{
 
 		if (sortcol(data[i], data[i + 1]))
@@ -429,11 +431,12 @@ void bubSort(std::vector<std::vector<double>>& data, int index)
 			temp = data[i];
 			data[i] = data[i + 1];
 			data[i + 1] = temp;
+			flip = true;
 		}
-		if (i == sizeof(data[0]) - 1)
-		{
-			return;
-		}
+	}
+	if (!flip)
+	{
+		return;
 	}
 	bubSort(data, index);
 }
@@ -441,15 +444,17 @@ void bubSort(std::vector<std::vector<double>>& data, int index)
 int main()
 {
 
-	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7} };
+	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7}, {2,2,2} };
+
+
 	Hyper_Plane x(data);
 
-	std::vector<double> point = { 4,4,4 };
+	Hyper_Plane y(data, { {1,1,2},{1,4,7},{2,2,2} }, x);
+	std::vector<double> point = { 4,4,6 };
 
-	std::cout << x.dist_To_Point(point) << std::endl;
+	std::cout << x.check_Point_Outside(point) << std::endl;
 
 	return 0;
-
 	/*
 	std::string line;
 	std::vector<double> parametervector;
