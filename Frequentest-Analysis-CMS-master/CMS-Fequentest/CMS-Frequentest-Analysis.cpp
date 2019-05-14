@@ -300,22 +300,68 @@ std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data,
 	return out;
 }
 
+std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> matrix, int row1, int row2) {
+	std::vector<std::vector<double>> placeholder;
+	for (int i = 0; i < matrix.size(); i++) {
+		placeholder[i] = matrix[i][row1];
+		matrix[i][row1] = matrix[i][row2];
+		matrix[i][row2] = placeholder[i];
+	}
+	return matrix;
+}
+
+//multiples of row1 added to row2 until row2[zeroindex] = 0
+
+std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> matrix, int row1, int row2, int zeroindex) {
+	double factor = matrix[zeroindex][row2] / matrix[zeroindex][row1];
+	for (int i = 0; i < matrix.size(); i++) {
+		matrix[i][row2] = matrix[i][row2] - factor * matrix[i][row1];
+	}
+	return matrix;
+}
+
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix) // in need of implementation
 {
 	std::vector<double> placeholder;
 	std::vector<double> out;
-	for (int i = 0; i < matrix.size() - 2; i++) {
-		if (matrix[])
-		for (int j = 0; j < matrix.size() - i - 1; j++) {
-			for (int k = 0; k < matrix.size() + 1; k++) {
-
+	for (int i = 0; i < matrix.size() - 1; i++) {
+		if (matrix[i][i] == 0) {
+			for (int j = i; j < matrix[i].size(); j++) {
+				if (matrix[i][j] != 0) {
+					matrix = RowSwap(matrix, i, j);
+					break;
+				}
 			}
+		}
+		for (int j = i + 1; j < matrix[i].size(); j++) {
+			RowAdd(matrix, i, j, i);
+		}
+	}
+	for (int i = matrix.size()-2; i > 0; i--) {
+		for (int j = 0; j < i; j++) {
+			RowAdd(matrix, i, j, i);
+		}
+	}
+	for (int i = 0; i < matrix[matrix.size()-1].size() - 1; i++) {
+		if (matrix[i][i] == 0) {
+			out[i] = 1;
+		}
+		else {
+			out[i] = matrix.end()[i] / matrix[i][i];
 		}
 	}
 	return out;
 }
 
-
+std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix) {
+	std::vector<std::vector<double>> TransposeOutput;
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++) {
+			TransposeOutput[j][i] = matrix[i][j];
+		}
+	}
+	return TransposeOutput;
+}
 
 bool sortcol(const std::vector<double>& v1, const std::vector<double>& v2) {
 	return v1[0] < v2[0];
