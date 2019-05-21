@@ -3,7 +3,7 @@
 #include "CMS-Frequentest-Analysis.h"
 
 
-Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet)
+Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet) //Functional
 {
 	basePlane = true;
 	const int SIZE_OF_DATA_SET = adataSet.size();
@@ -19,7 +19,7 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet)
 	std::vector<double> new_Point;
 	for (std::size_t i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++i)
+		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
 		{
 			new_Point.push_back(points[i][j] - point[j]);
 		}
@@ -28,38 +28,61 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet)
 	}
 	orthogonalVector = gaussian_Elimination(vectors);
 	bool org;
-	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
+	for (std::size_t i = 0; i < points.size(); ++i)
 	{
 		org = true;
 		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
 		{
-			if (adataSet[i][j] != 0)
+			if (points[i][j] != 0)
 			{
 				org = false;
+				break;
 			}
 		}
 		if (org)
 		{
-			origin = true;
 			break;
 		}
 	}
-	if (org != true)
+	if (org)
+	{
+		origin = true;
+	}
+	else
 	{
 		origin = false;
 	}
-
+	std::vector<double> last = dataSet[dataSet.size()-1];
+	if (dot(last) > 0)
+	{
+		for (int i = 0; i < orthogonalVector.size(); ++i)
+		{
+			orthogonalVector[i] *= -1;
+		}
+	}
 }
 
 Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet,
-	std::vector<std::vector<double>> base_Points, Hyper_Plane base)
+	std::vector<std::vector<double>> base_Points, Hyper_Plane base) //Functional
 {
 	basePlane = false;
 	dataSet = adataSet;
 	points = base_Points;
 	const int SIZE_OF_DATA_SET = adataSet.size();
 	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
-	std::vector<double> orthogonalVector = gaussian_Elimination(points);
+	std::vector<std::vector<double>> vectors;
+	std::vector<double> point = points[0];
+	std::vector<double> new_Point;
+	for (std::size_t i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
+	{
+		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
+		{
+			new_Point.push_back(points[i][j] - point[j]);
+		}
+		vectors.push_back(new_Point);
+		new_Point.clear();
+	}
+	orthogonalVector = gaussian_Elimination(vectors);
 	if (base.dot(orthogonalVector) < 0)
 	{
 		int j = 0;
@@ -70,58 +93,53 @@ Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet,
 		}
 	}
 	bool org;
-	for (std::size_t i = 0; i < SIZE_OF_DATA_SET; ++i)
+	for (std::size_t i = 0; i < points.size(); ++i)
 	{
 		org = true;
 		for (std::size_t j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
 		{
-			if (adataSet[i][j] != 0)
+			if (points[i][j] != 0)
 			{
 				org = false;
+				break;
 			}
 		}
 		if (org)
 		{
-			origin = true;
+			break;
 		}
 	}
-	if (org != true)
+	if (org)
 	{
-		origin = false;
-	}
-}
-
-std::vector<double> Hyper_Plane::smallest_Point()
-{
-	return find_Smallest_By_Index(points, 0);
-}
-
-
-bool Hyper_Plane::check_Point_Outside(std::vector<double> point)
-{
-	const int NUMBER_OF_DIMENSIONS = dataSet[0].size();
-	double sum = dot(point);
-	if (origin)
-	{
-		if (sum > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		origin = true;
 	}
 	else
 	{
-		if (sum > 1)
+		origin = false;
+	}
+	std::vector<double> last = dataSet[dataSet.size() - 1];
+	if (dot(last) > 0)
+	{
+		for (int i = 0; i < orthogonalVector.size(); ++i)
 		{
-			return true;
+			orthogonalVector[i] *= -1;
 		}
-		else
-		{
-			return false;
-		}
+	}
+}
+
+
+
+bool Hyper_Plane::check_Point_Outside(std::vector<double> point) //Functional
+{
+	const int NUMBER_OF_DIMENSIONS = dataSet[0].size();
+	double sum = dot(point);
+	if (sum > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -139,7 +157,7 @@ bool Hyper_Plane::is_Point_Outside()
 	return false;
 }
 
-double Hyper_Plane::dist_To_Point(std::vector<double> point)
+double Hyper_Plane::dist_To_Point(std::vector<double> point) //Functional
 {
 	const int NUMBER_OF_DIMENSIONS = orthogonalVector.size();
 	double numerator = 0;
@@ -209,7 +227,7 @@ double Hyper_Plane::dot(std::vector<double> outside)
 	double sum = 0;
 	while (i < NUMBER_OF_DIMENSIONS)
 	{
-		sum += i * orthogonalVector[i];
+		sum += outside[i] * orthogonalVector[i];
 		++i;
 	}
 	return sum;

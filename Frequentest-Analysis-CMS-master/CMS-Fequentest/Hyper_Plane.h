@@ -24,8 +24,6 @@ public:
 	bool is_Point_Outside();
 	//Constructs a vector of hyperplanes taking every combination of base points and a new point with largest orthogonal distance
 	std::vector<Hyper_Plane> expand_Surface();
-	//Finds the point with the smallest x value in the Hyper_Plane
-	std::vector<double> smallest_Point();
 	//Finds the dot product between the orthogonal vector and another vector
 	double dot(std::vector<double> outside);
 	~Hyper_Plane();

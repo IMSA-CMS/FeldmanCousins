@@ -34,9 +34,18 @@ std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data
 //Finds the vector with the smallest index from a vector of vectors
 std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data, int index);
 
-//Takes an input "matrix" and outputs a solution vector via guassian elimination
+//Takes an input "matrix" and outputs a solution vector for the nullspace via guassian elimination
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix);
 
 //Preforms a bubble sort on a vector of vectors for some index
 bool sortcol(const std::vector<int>& v1, const std::vector<int>& v2);
 void bubSort(std::vector<std::vector<double>>& data, int index);
+
+//multiples of row1 added to row2 until row2[zeroindex] = 0
+std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatrix, int row1, int row2, int zeroindex);
+
+//Preforms a row swap between row1 and row2 of inmatrix
+std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> inmatrix, int row1, int row2);
+
+//Takes the transpose of matrix
+std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix);

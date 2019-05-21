@@ -300,77 +300,130 @@ std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data,
 	return out;
 }
 
-std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> matrix, int row1, int row2) {
-	std::vector<std::vector<double>> placeholder;
+std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> inmatrix, int row1, int row2) {
+	std::vector<double> placeholder;
+	std::vector<std::vector<double>> matrix = inmatrix;
 	for (int i = 0; i < matrix.size(); i++) {
-		placeholder[i] = matrix[i][row1];
+		placeholder.push_back(matrix[i][row1]);
 		matrix[i][row1] = matrix[i][row2];
 		matrix[i][row2] = placeholder[i];
 	}
 	return matrix;
 }
 
-//multiples of row1 added to row2 until row2[zeroindex] = 0
+std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix) {
+	std::vector<std::vector<double>> outmatrix;
+	outmatrix.resize(matrix[0].size());
+	for (int i = 0; i < outmatrix.size(); i++)
+		outmatrix[i].resize(matrix.size());
+	for (int i = 0; i < matrix.size(); i++) {
+		for (int j = 0; j < matrix[i].size(); j++) {
+			outmatrix[j][i] = matrix[i][j];
+		}
+	}
+	return outmatrix;
+}
 
-std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> matrix, int row1, int row2, int zeroindex) {
+
+std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatrix, int row1, int row2, int zeroindex) {
+	std::vector<std::vector<double>> matrix = inmatrix;
 	double factor = matrix[zeroindex][row2] / matrix[zeroindex][row1];
 	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i][row2] = matrix[i][row2] - factor * matrix[i][row1];
+		matrix[i][row2] = matrix[i][row2] - (factor * matrix[i][row1]);
 	}
 	return matrix;
 }
 
-std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix) // in need of implementation
+ 
+
+std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) // Checked
 {
-	std::vector<double> placeholder;
-	std::vector<double> out;
-	for (int i = 0; i < matrix.size() - 1; i++) {
-		if (matrix[i][i] == 0) {
-			for (int j = i; j < matrix[i].size(); j++) {
-				if (matrix[i][j] != 0) {
+	std::vector<std::vector<double>> matrix = inmatrix;
+	matrix = Transpose(matrix);
+	std::vector<double> out(matrix.size());
+	bool nonZero = true;
+	for (int i = 0; i < matrix[0].size(); ++i)
+	{
+		if (matrix[i][i] == 0)
+		{
+			nonZero = false;
+			for (int j = i; j < matrix[0].size(); ++j)
+			{
+				if (matrix[i][j] != 0)
+				{
 					matrix = RowSwap(matrix, i, j);
+					nonZero = true;
 					break;
 				}
 			}
 		}
-		for (int j = i + 1; j < matrix[i].size(); j++) {
-			RowAdd(matrix, i, j, i);
+		if (nonZero)
+		{
+			for (int j = i + 1; j < matrix[0].size(); ++j)
+			{
+				matrix = RowAdd(matrix, i, j, i);
+			}
 		}
 	}
-	for (int i = matrix.size()-2; i > 0; i--) {
-		for (int j = 0; j < i; j++) {
-			RowAdd(matrix, i, j, i);
+
+	std::vector<bool> pivots(matrix.size());
+	for (int i = 0; i < matrix[0].size(); ++i)
+	{
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			if (matrix[j][i] != 0)
+			{
+				pivots[j] = true;
+				break;
+			}
 		}
 	}
-	for (int i = 0; i < matrix[matrix.size()-1].size() - 1; i++) {
-		if (matrix[i][i] == 0) {
+
+	for (int i = 0; i < pivots.size(); ++i)
+	{
+		if (!pivots[i])
+		{
 			out[i] = 1;
+			break;
 		}
-		else {
-			out[i] = matrix.end()[i] / matrix[i][i];
+	}
+	double constant;
+	int firstNonZero;
+	for (int i = matrix[0].size() - 1; i >= 0; --i)
+	{
+		constant = 0;
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			constant += matrix[j][i] * out[j];
+		}
+		for (int j = 0; j < matrix.size(); ++j)
+		{
+			if (matrix[j][i] != 0)
+			{
+				firstNonZero = j;
+				break;
+			}
+		}
+		if (i != matrix[0].size() - 1 || firstNonZero != matrix.size() - 1)
+		{
+			out[firstNonZero] = -1 * (constant / matrix[firstNonZero][i]);
 		}
 	}
 	return out;
 }
 
-std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix) {
-	std::vector<std::vector<double>> TransposeOutput;
-	for (int i = 0; i < matrix.size(); i++) {
-		for (int j = 0; j < matrix[i].size(); j++) {
-			TransposeOutput[j][i] = matrix[i][j];
-		}
-	}
-	return TransposeOutput;
-}
+
 
 bool sortcol(const std::vector<double>& v1, const std::vector<double>& v2) {
 	return v1[0] < v2[0];
 }
 
-void bubSort(std::vector<std::vector<double>>& data, int index)
+void bubSort(std::vector<std::vector<double>>& data, int index)  //Checked
 {
 	std::vector<double> temp;
-	for (std::size_t i = 0; i < sizeof(data[0])-1; ++i)
+	int size = data[0].size();
+	bool flip = false;
+	for (int i = 0; i < size-1; ++i)
 	{
 
 		if (sortcol(data[i], data[i + 1]))
@@ -378,11 +431,12 @@ void bubSort(std::vector<std::vector<double>>& data, int index)
 			temp = data[i];
 			data[i] = data[i + 1];
 			data[i + 1] = temp;
+			flip = true;
 		}
-		if (i == sizeof(data[0]) - 1)
-		{
-			return;
-		}
+	}
+	if (!flip)
+	{
+		return;
 	}
 	bubSort(data, index);
 }
@@ -390,15 +444,17 @@ void bubSort(std::vector<std::vector<double>>& data, int index)
 int main()
 {
 
-	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7} };
+	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7}, {2,2,2} };
+
+
 	Hyper_Plane x(data);
 
-	std::vector<double> point = { 4,4,4 };
+	Hyper_Plane y(data, { {1,1,2},{1,4,7},{2,2,2} }, x);
+	std::vector<double> point = { 4,4,6 };
 
-	std::cout << x.dist_To_Point(point) << std::endl;
+	std::cout << x.check_Point_Outside(point) << std::endl;
 
 	return 0;
-
 	/*
 	std::string line;
 	std::vector<double> parametervector;
