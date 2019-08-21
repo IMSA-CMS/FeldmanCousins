@@ -37,7 +37,7 @@ void oneBin(std::stringstream& in, std::ofstream& outFile)
 {
 	std::vector<std::string> line = oneLine(in);
 	outFile << "000000000000000\n";
-	for (std::size_t i = 0; i < line.size(); ++i)
+	for (int i = 0; i < line.size(); ++i)
 	{
 		outFile << line.at(i) << "\n";
 	}

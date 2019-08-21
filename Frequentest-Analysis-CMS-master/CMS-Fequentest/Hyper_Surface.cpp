@@ -10,9 +10,9 @@ bool Hyper_Surface::check_If_More()
 {	
 	int NUMBER_OF_PLANES = planeSet.size();
 	const int NUMBER_OF_DATA_POINTS = dataSet.size();
-	for (std::size_t i = 0; i < NUMBER_OF_PLANES; ++i)
+	for (int i = 0; i < NUMBER_OF_PLANES; ++i)
 	{
-		for (std::size_t j = 0; j < NUMBER_OF_DATA_POINTS; ++j)
+		for (int j = 0; j < NUMBER_OF_DATA_POINTS; ++j)
 		{
 			if (planeSet[i].check_Point_Outside(dataSet[j]))
 			{
@@ -31,43 +31,43 @@ void Hyper_Surface::make_Surface()
 	std::vector<std::vector<Hyper_Plane>> tempSet;
 	while (check_If_More())
 	{
-		for (std::size_t i = 0; i < planeSet.size(); ++i)
+		for (int i = 0; i < planeSet.size(); ++i)
 		{
-			tempSet[i] = planeSet[i].expand_Surface();
+			tempSet.push_back(planeSet[i].expand_Surface());
 		}
 		planeSet.clear();
-		for (std::size_t j = 0; j < tempSet.size(); ++j)
+		for (int j = 0; j < tempSet.size(); ++j)
 		{
-			for (std::size_t k = 0; k < tempSet[0].size(); ++k)
+			for (int k = 0; k < tempSet[0].size(); ++k)
 			{
 				planeSet.push_back(tempSet[j][k]);
 			}
 		}
-		planeSet.push_back(basePlane);
+		tempSet.clear();
 		clear_Points();
-		planeSet.pop_back();
 	}
+	planeSet.push_back(basePlane);
 }
 
 bool Hyper_Surface::point_Is_In(std::vector<double> point)
 {
-	bool inside = true;
+
 	int NUMBER_OF_PLANES = planeSet.size();
-	for (std::size_t i = 0; i < NUMBER_OF_PLANES; ++i)
+	for (int i = 0; i < NUMBER_OF_PLANES; ++i)
 	{
 		if (planeSet[i].check_Point_Outside(point))
 		{
-			inside = false;
+			return false;
 		}
 	}
-	return inside;
+	return true;
 }
 
 void Hyper_Surface::clear_Points()
 {
-	const int NUMBER_OF_DATA_POINTS = dataSet.size();
+	int NUMBER_OF_DATA_POINTS = dataSet.size();
 	std::vector<std::vector<double>> newSet;
-	for (std::size_t i = 0; i < NUMBER_OF_DATA_POINTS; ++i)
+	for (int i = NUMBER_OF_DATA_POINTS-1; i >=0; --i)
 	{
 		if (!point_Is_In(dataSet[i]))
 		{

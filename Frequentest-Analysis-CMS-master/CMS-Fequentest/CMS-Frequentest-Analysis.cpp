@@ -173,19 +173,20 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	CoupledNvector.erase(CoupledNvector.begin(), CoupledNvector.begin() + (int)fivep);
 	std::vector<std::vector<double>> dataSet;
 	std::vector<double> temp;
-	for (std::size_t i = 0; i < CoupledNvector.size(); ++i)
+	for (int i = 0; i < CoupledNvector.size(); ++i)
 	{
-		for (std::size_t j = 0; j < CoupledNvector[0].size()-1; ++j)
+		for (int j = 0; j < CoupledNvector[0].size(); ++j)
 		{
 			temp.push_back(CoupledNvector[i][j]);
 		}
 		dataSet.push_back(temp);
 		temp.clear();
 	}
-	std::cout << temp[0] << std::endl;
 	Hyper_Surface surface(dataSet);
 	surface.make_Surface();
-	return surface.point_Is_In(ObservedGenerator(params));
+	std::vector<double> test = ObservedGenerator(params);
+	bool out = surface.point_Is_In(test);
+	return out;
 	/*	for (int i = 0; i < CoupledNvector.size(); i++) {
 			double distance = 0;
 			for (int j = 0; j < CoupledNvector[i].size()-1; j++) {
@@ -263,7 +264,7 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data, int index)
 {
 	std::vector<double> out;
-	for (std::size_t i = 0; i < data.size(); ++i)
+	for (int i = 0; i < data.size(); ++i)
 	{
 		if (i == 0)
 		{
@@ -283,7 +284,7 @@ std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data
 std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data, int index)
 {
 	std::vector<double> out;
-	for (std::size_t i = 0; i < data.size(); ++i)
+	for (int i = 0; i < data.size(); ++i)
 	{
 		if (i == 0)
 		{
@@ -334,7 +335,7 @@ std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatri
 	return matrix;
 }
 
- 
+
 
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) // Checked
 {
@@ -388,7 +389,7 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatr
 		}
 	}
 	double constant;
-	int firstNonZero;
+	int firstNonZero = 0;
 	for (int i = matrix[0].size() - 1; i >= 0; --i)
 	{
 		constant = 0;
@@ -403,7 +404,7 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatr
 				firstNonZero = j;
 				break;
 			}
-		}
+		}  
 		if (i != matrix[0].size() - 1 || firstNonZero != matrix.size() - 1)
 		{
 			out[firstNonZero] = -1 * (constant / matrix[firstNonZero][i]);
@@ -444,18 +445,8 @@ void bubSort(std::vector<std::vector<double>>& data, int index)  //Checked
 int main()
 {
 
-	std::vector<std::vector<double>> data = { {1,1,2},{3,3,4},{1,4,7}, {2,2,2} };
 
 
-	Hyper_Plane x(data);
-
-	Hyper_Plane y(data, { {1,1,2},{1,4,7},{2,2,2} }, x);
-	std::vector<double> point = { 4,4,6 };
-
-	std::cout << x.check_Point_Outside(point) << std::endl;
-
-	return 0;
-	/*
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
@@ -480,7 +471,6 @@ int main()
 		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector) << std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
 	}
 	return 0;
-	*/
 }
 
 

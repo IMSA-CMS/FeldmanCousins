@@ -16,6 +16,8 @@ public:
 	Hyper_Plane(std::vector<std::vector<double>>& adataSet);
 	//Creates a Hyper_Plane from another Hyper_Plane
 	Hyper_Plane(std::vector<std::vector<double>>& adataSet, std::vector<std::vector<double>> base_Points, Hyper_Plane base);
+	//Gets points set
+	std::vector<std::vector<double>> getPoints() { return points; }
 	//Finds the distance between the Hyper_Plane and the point
 	double dist_To_Point(std::vector<double> point);
 	//Checks if a point is outside of the current plane
