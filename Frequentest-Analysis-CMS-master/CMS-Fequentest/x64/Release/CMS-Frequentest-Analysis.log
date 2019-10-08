@@ -1,0 +1,25 @@
+﻿  CMS-Frequentest-Analysis.cpp
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(40,96): warning C4244:  'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(40,96): warning C4244:         with
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(40,96): warning C4244:         [
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(40,96): warning C4244:             _Rep=std::chrono::system_clock::rep
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(40,96): warning C4244:         ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(44,9): warning C4244:  'return': conversion from '__int64' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(77,59): warning C4244:  'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(77,59): warning C4244:         with
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(77,59): warning C4244:         [
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(77,59): warning C4244:             _Ty=double
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(77,59): warning C4244:         ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(93,59): warning C4244:  'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(93,59): warning C4244:         with
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(93,59): warning C4244:         [
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(93,59): warning C4244:             _Ty=double
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(93,59): warning C4244:         ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(156,35): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(370,35): warning C4267:  'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating code
+  1 of 654 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  CMS-Frequentest-Analysis.vcxproj -> C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Release\CMS-Frequentest-Analysis.exe

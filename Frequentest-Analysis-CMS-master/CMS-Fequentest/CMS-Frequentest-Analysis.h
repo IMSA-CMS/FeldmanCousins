@@ -25,21 +25,15 @@ double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::ve
 //Sorts vectors of doubles by their last elements.
 bool VectorSortingAlg(std::vector<double> i, std::vector<double> j);
 
+//Sorts vectors of doubles by their first elements.
+bool FirstVectorSortingAlg(std::vector<double> i, std::vector<double> j);
+
 //
 bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params);
-
-//Finds the vector with the smallest index from a vector of vectors
-std::vector<double> find_Smallest_By_Index(std::vector<std::vector<double>> data, int index);
-
-//Finds the vector with the smallest index from a vector of vectors
-std::vector<double> find_Largest_By_Index(std::vector<std::vector<double>> data, int index);
 
 //Takes an input "matrix" and outputs a solution vector for the nullspace via guassian elimination
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix);
 
-//Preforms a bubble sort on a vector of vectors for some index
-bool sortcol(const std::vector<int>& v1, const std::vector<int>& v2);
-void bubSort(std::vector<std::vector<double>>& data, int index);
 
 //multiples of row1 added to row2 until row2[zeroindex] = 0
 std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatrix, int row1, int row2, int zeroindex);

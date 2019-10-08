@@ -1,158 +1,153 @@
 #include "stdafx.h"
+#include <algorithm>
 #include "Hyper_Plane.h"
 #include "CMS-Frequentest-Analysis.h"
 
 
-Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet) //Functional
+
+
+Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>> adataSet)
 {
 	basePlane = true;
-	const int SIZE_OF_DATA_SET = adataSet.size();
-	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
-	dataSet = adataSet;
-	for (int i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
+	int SIZE_OF_DATA_SET = adataSet.size();
+	int NUMBER_OF_DIMENSIONS = adataSet[0].size();
+	std::vector<std::vector<double>> dataSet = adataSet;
+	std::sort(dataSet.begin(), dataSet.end(), FirstVectorSortingAlg);
+
+
+	points.push_back(dataSet[SIZE_OF_DATA_SET - 1]);
+	dataSet.pop_back();
+	SIZE_OF_DATA_SET = dataSet.size();
+	std::vector<double> pointVector;
+	double magnitude = 0;
+	std::vector<double> bestPoint;
+	double bestVal = 0;
+	int bestInd;
+	for (int i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		points.push_back(dataSet[SIZE_OF_DATA_SET - 1 - i]);   //Having the largest n points in a dimension guarantees a plane on the outside 
+		for (int j = 0; j < SIZE_OF_DATA_SET; ++j)
+		{
+			for (int k = 0; k < NUMBER_OF_DIMENSIONS; ++k)
+			{
+				pointVector.push_back(dataSet[j][k] - points[0][k]);
+				magnitude += pow(pointVector[pointVector.size()-1],2);
+			}
+			magnitude = pow(magnitude, 1 / 2);
+			
+			if (abs(pointVector[i]) / magnitude > bestVal)
+			{
+				bestPoint = dataSet[j];
+				bestVal = pointVector[i] / magnitude;
+				bestInd = j;
+			}
+		}
+		points.push_back(bestPoint);
+		bestVal = 0;
+		dataSet.erase(dataSet.begin() + bestInd);
+		SIZE_OF_DATA_SET -= 1;
 	}
+
+
 	std::vector<std::vector<double>> vectors;
 	std::vector<double> point = points[0];
 	std::vector<double> new_Point;
-	for (int i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
+	if (NUMBER_OF_DIMENSIONS > 1)
 	{
-		for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
+		for (int i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
 		{
-			new_Point.push_back(points[i][j] - point[j]);
-		}
-		vectors.push_back(new_Point);
-		new_Point.clear();
-	}
-	orthogonalVector = gaussian_Elimination(vectors);
-	bool org;
-	for (int i = 0; i < points.size(); ++i)
-	{
-		org = true;
-		for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
-		{
-			if (points[i][j] != 0)
+			for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
 			{
-				org = false;
-				break;
+				new_Point.push_back(points[i][j] - point[j]);
 			}
+			vectors.push_back(new_Point);
+			new_Point.clear();
 		}
-		if (org)
-		{
-			break;
-		}
-	}
-	if (org)
-	{
-		origin = true;
+		orthogonalVector = gaussian_Elimination(vectors);
 	}
 	else
 	{
-		origin = false;
-	}
-	std::vector<double> last = dataSet[dataSet.size()-1];
-	if (dot(last) > 0)
-	{
-		for (int i = 0; i < orthogonalVector.size(); ++i)
-		{
-			orthogonalVector[i] *= -1;
-		}
+		orthogonalVector = { 1 };
 	}
 }
 
-Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>>& adataSet,
-	std::vector<std::vector<double>> base_Points, Hyper_Plane base) //Functional
+Hyper_Plane::Hyper_Plane(std::vector<std::vector<double>> base_Points, Hyper_Plane base)
 {
 	basePlane = false;
-	dataSet = adataSet;
 	points = base_Points;
-	const int SIZE_OF_DATA_SET = adataSet.size();
-	const int NUMBER_OF_DIMENSIONS = adataSet[0].size();
+	const int NUMBER_OF_DIMENSIONS = points[0].size();
 	std::vector<std::vector<double>> vectors;
 	std::vector<double> point = points[0];
 	std::vector<double> new_Point;
-	for (int i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
+	if (NUMBER_OF_DIMENSIONS > 1)
 	{
-		for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
+		for (int i = 1; i < NUMBER_OF_DIMENSIONS; ++i)
 		{
-			new_Point.push_back(points[i][j] - point[j]);
-		}
-		vectors.push_back(new_Point);
-		new_Point.clear();
-	}
-
-	std::vector<double> different_Point;
-	std::vector<std::vector<double>> base_Point = base.getPoints();
-	bool same = false;
-	for (int i = 0; i < base_Points.size(); ++i)
-	{
-		for (int j = 0; j < base_Point.size(); ++j)
-		{
-			if (base_Points[i] == base_Point[j])
+			for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
 			{
-				same = true;
+				new_Point.push_back(points[i][j] - point[j]);
+			}
+			vectors.push_back(new_Point);
+			new_Point.clear();
+		}
+
+		std::vector<double> different_Point;
+		std::vector<std::vector<double>> base_Point = base.getPoints();
+		bool same = false;
+		bool identical = true;
+		for (int i = 0; i < base_Points.size(); ++i)
+		{
+			for (int j = 0; j < base_Point.size(); ++j)
+			{
+				if (base_Points[j] == base_Point[i])
+				{
+					same = true;
+					break;
+				}
+			}
+			if (!same)
+			{
+				different_Point = base_Point[i];
+				identical = false;
 				break;
 			}
+			same = false;
 		}
-		if (!same)
-		{
-			different_Point = base_Points[i];
-			break;
-		}
-		same = false;
-	}
 
-	orthogonalVector = gaussian_Elimination(vectors);
-
-	if (dist_To_Point(different_Point) > 0)
-	{
-		int j = 0;
-		while (j < NUMBER_OF_DIMENSIONS)
+		orthogonalVector = gaussian_Elimination(vectors);
+		
+		if (!identical && dist_To_Point(different_Point) < 0)
 		{
-			orthogonalVector[j] *= -1;
-			++j;
+			flip_Orthogonal_Vector();
 		}
-	}
-	bool org;
-	for (int i = 0; i < points.size(); ++i)
-	{
-		org = true;
-		for (int j = 0; j < NUMBER_OF_DIMENSIONS; ++j)
-		{
-			if (points[i][j] != 0)
-			{
-				org = false;
-				break;
-			}
-		}
-		if (org)
-		{
-			break;
-		}
-	}
-	if (org)
-	{
-		origin = true;
+		
 	}
 	else
 	{
-		origin = false;
+		orthogonalVector = { 1 };
 	}
 }
 
-
-
-bool Hyper_Plane::check_Point_Outside(std::vector<double> point) //Functional
+void Hyper_Plane::flip_Orthogonal_Vector()
 {
-	const int NUMBER_OF_DIMENSIONS = dataSet[0].size();
+	const int NUMBER_OF_DIMENSIONS = points[0].size();
+	int j = 0;
+	while (j < NUMBER_OF_DIMENSIONS)
+	{
+		orthogonalVector[j] *= -1;
+		++j;
+	}
+}
+
+bool Hyper_Plane::check_Point_Outside(std::vector<double> point)
+{
+	const int NUMBER_OF_DIMENSIONS = points[0].size();
 	std::vector<double> point_Vector;
 	for (int i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
 		point_Vector.push_back(point[i] - points[0][i]);
 	}
 	double sum = dot(point_Vector);
-	if (sum < 0)
+	if (sum > 0)
 	{
 		return true;
 	}
@@ -162,33 +157,31 @@ bool Hyper_Plane::check_Point_Outside(std::vector<double> point) //Functional
 	}
 }
 
-bool Hyper_Plane::is_Point_Outside()
+bool Hyper_Plane::is_Point_Outside(std::vector<std::vector<double>> adataSet)
 {
-	const int SIZE_OF_DATA_SET = dataSet.size();
+	const int SIZE_OF_DATA_SET = adataSet.size();
 	int i = 0;
 	while (i < SIZE_OF_DATA_SET)
 	{
-		if (check_Point_Outside(dataSet[i]))
+		if (check_Point_Outside(adataSet[i]))
 		{
 			return true;
 		}
+		++i;
 	}
 	return false;
 }
 
-double Hyper_Plane::dist_To_Point(std::vector<double> point) //Functional
+double Hyper_Plane::dist_To_Point(std::vector<double> point)
 {
 	const int NUMBER_OF_DIMENSIONS = orthogonalVector.size();
 	double numerator = 0;
 	double denominator = 0;
+
 	for (int i = 0; i < NUMBER_OF_DIMENSIONS; ++i)
 	{
-		numerator += orthogonalVector[i] * point[i];
-		denominator += pow(orthogonalVector[i], 2);
-	}
-	if (!origin)  //If the origin is a part of this plane the constant term is 0 and all terms are already included
-	{
-		numerator -= 1;    //Equation is in the form Ax_1+bx_2...=1 so when put in the equation of the form Ax_1+Bx_2...+N=0 we get that N=-1
+		numerator += orthogonalVector[i] * ( point[i] - points[0][i]);
+		denominator += orthogonalVector[i] * orthogonalVector[i];
 	}
 	numerator = abs(numerator);
 	denominator = sqrt(denominator);
@@ -196,29 +189,31 @@ double Hyper_Plane::dist_To_Point(std::vector<double> point) //Functional
 }
 
 
-std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
+std::vector<Hyper_Plane> Hyper_Plane::expand_Surface(std::vector<std::vector<double>> adataSet)
 {
-	const int SIZE_OF_DATA_SET = dataSet.size();
+	const int SIZE_OF_DATA_SET = adataSet.size();
+	double maxDist = 0;
 	double dist = 0;
 	std::vector<double> point;
 	std::vector<Hyper_Plane> out;
 	// Finds the new point by finding the furthest away point from this plane
-	if (is_Point_Outside())
+	if (is_Point_Outside(adataSet))
 	{
 		for (int i = 0; i < SIZE_OF_DATA_SET; ++i)
 		{
-			if (check_Point_Outside(dataSet[i]))
+			if (check_Point_Outside(adataSet[i]))
 			{
-				if (dist_To_Point(dataSet[i]) > dist)
+				dist = dist_To_Point(adataSet[i]);
+				if (dist > maxDist)
 				{
-					dist = dist_To_Point(dataSet[i]);
-					point = dataSet[i];
+					maxDist = dist;
+					point = adataSet[i];
 				}
 			}
 		}
 		std::vector<std::vector<double>> outPoints;
 		for (int i = 0; i < points.size(); ++i)
-        	{
+        {
 			for (int j = 0; j < points.size(); ++j)
 			{
 				if (i != j)  //Gives every set of n-1 points among current points
@@ -227,7 +222,7 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 				}
 			}
 			outPoints.push_back(point);  //Adds the new point
-			out.push_back(Hyper_Plane(dataSet, outPoints, *this));
+			out.push_back(Hyper_Plane(outPoints, *this));
 			outPoints.clear();
 		}
 		
@@ -239,7 +234,7 @@ std::vector<Hyper_Plane> Hyper_Plane::expand_Surface()
 	return out;
 }
 
-double Hyper_Plane::dot(std::vector<double> outside) //Functional
+double Hyper_Plane::dot(std::vector<double> outside)
 {
 	const int NUMBER_OF_DIMENSIONS = orthogonalVector.size();
 	int i = 0;
@@ -251,6 +246,7 @@ double Hyper_Plane::dot(std::vector<double> outside) //Functional
 	}
 	return sum;
 }
+
 
 Hyper_Plane::~Hyper_Plane()
 {}
