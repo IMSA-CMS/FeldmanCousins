@@ -12,11 +12,11 @@
 #include <fstream>
 #include <vector>
 #include <limits>
-#include "Hyper_Surface.h"
+//#include "Hyper_Surface.h"
 #include "CMS-Frequentest-Analysis.h"
 #include <algorithm>
+#include "Plane.h"
 
-//Factorial Function
 
 double long factorial(int number) {
 	double long answer = 1;
@@ -26,14 +26,24 @@ double long factorial(int number) {
 	return answer;
 }
 
-//Given the parameters, a bin number, and a limit, calculates mu.
+double magnitude(std::vector<double> vect)
+{
+	double square_sum = 0;
+	for (int i = 0; i < vect.size(); ++i)
+	{
+		square_sum += vect[i] * vect[i];
+	}
+	return sqrt(square_sum);
+}
+
+
 
 double newmufunction(std::vector<double> params, int munumber, double Beta) {
 	double newmu = params[9 * munumber + 2] + params[9 * munumber + 3] * Beta + params[9 * munumber + 4] * Beta*Beta + params[9 * munumber + 5] + params[9 * munumber + 6];
 	return newmu;
 }
 
-//Generates a Pseudoexperiment given a mean (mu) value
+
 
 int PE_Generator(double mean)
 {
@@ -44,7 +54,6 @@ int PE_Generator(double mean)
 	return number;
 }
 
-//Generates the Observed Values from the Parameters
 
 std::vector<double> ObservedGenerator(std::vector<double> params) {
 	std::vector<double> observed;
@@ -62,7 +71,6 @@ std::vector<double> BackgroundGenerator(std::vector<double> params) {
 	return background;
 }
 
-//New Ln(Likelihood Function) Approximation by Stirling
 
 double NEW_LN_Likelihood_Function(double Limit, std::vector<double> params, std::vector<double> PEvector) {
 	std::vector<double> muvector;
@@ -80,7 +88,7 @@ double NEW_LN_Likelihood_Function(double Limit, std::vector<double> params, std:
 	return likelihood;
 }
 
-//Finds the Likelihood of just the background.
+
 
 double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::vector<double> PEvector) {
 	double likelihood = 0;
@@ -99,15 +107,59 @@ double NEW_LN_Likelihood_Function_Background(std::vector<double> params, std::ve
 	return likelihood;
 }
 
-//Sorts vectors of doubles by their last elements.
 
 bool VectorSortingAlg(std::vector<double> i, std::vector<double> j) {
-	return(i.back()<j.back());
+	return(i.back() < j.back());
 }
 
 bool FirstVectorSortingAlg(std::vector<double> i, std::vector<double> j) {
 	return(i.front() < j.front());
 }
+
+void shift_points(std::vector<std::vector<double>>& data, std::vector<double> shift)
+{
+	for (unsigned int i = 0; i < data.size(); ++i)
+	{
+		for (unsigned int j = 0; j < shift.size(); ++j)
+		{
+			data[i][j] -= shift[j];
+		}
+	}
+}
+
+double dot(std::vector<double> v1, std::vector<double> v2)
+{
+	double sum = 0;
+	for (unsigned int i = 0; i < v1.size(); ++i)
+	{
+		sum += v1[i] * v2[i];
+	}
+	return sum;
+}
+
+std::vector<double> flip_vect(std::vector<double> v1)
+{
+	for (int i = 0; i < v1.size(); ++i)
+	{
+		v1[i] *= -1;
+	}
+	return v1;
+}
+
+bool check_vect(std::vector<double> vect, std::vector<std::vector<double>>& data, bool flip)
+{
+	for (unsigned int i = 0; i < data.size(); ++i)
+	{
+		if (dot(vect, data[i]) < 0)
+		{
+			if (!flip && check_vect(flip_vect(vect), data, true))
+				return true;
+			return false;
+		}
+	}
+	return true;
+}
+
 
 
 //std::vector<double> Center_Of_Mass(std::vector<std::vector<double>> Region, std::vector<double> Observed) {
@@ -148,10 +200,8 @@ bool FirstVectorSortingAlg(std::vector<double> i, std::vector<double> j) {
 //}
 
 
-// //Given an L, returns the 95% bound for the FOMs using the other functions
-
-bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params) {
-	int PEnumber = 100000;
+bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params,int GeneratedNumber) {
+	int PEnumber = GeneratedNumber;
 	double fivep = 0.05*PEnumber;
 	int binnumber = params.size() / 9;
 	int closepointnumber = binnumber * 10;
@@ -161,16 +211,16 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	//std::vector<std::vector<double> > CloseNvector(closepointnumber);
 	std::vector<std::vector<double> > Nvector(PEnumber);
 	std::vector<double> DistanceVector;
-	int bad = 1;
 	for (int i = 0; i<PEnumber; i++) {
 		Nvector[i].resize(binnumber);
 		CoupledNvector[i].resize(binnumber + 1);
 		//CloseNvector.resize(binnumber + 1);
 		for (int j = 0; j<binnumber; j++) {
-			Nvector[i][j] = PE_Generator(newmufunction(params, j, 1/(LimitGuess * LimitGuess)));
+			Nvector[i][j] = PE_Generator(newmufunction(params, j, LimitGuess));
 			CoupledNvector[i][j] = Nvector[i][j];
 		}
-		CoupledNvector[i][binnumber] = NEW_LN_Likelihood_Function(LimitGuess, params, Nvector[i]) - NEW_LN_Likelihood_Function_Background(params, Nvector[i]);
+		CoupledNvector[i][binnumber] = NEW_LN_Likelihood_Function(LimitGuess, params, Nvector[i])
+			- NEW_LN_Likelihood_Function_Background(params, Nvector[i]);
 		//std::cout << Nvector[i][0] << std::endl;
 		//std::cout << NEW_LN_Likelihood_Function(LimitGuess, params, Nvector[i]) << std::endl;
 		//std::cout << NEW_LN_Likelihood_Function_Background(params, Nvector[i]) << std::endl;
@@ -190,16 +240,28 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	}
 
 	//Honestly I'm not sure about this but I think that the first element of CoupledNvector is not important because it just increments so I'm going to strip
-	//it off of it as an attempt and confirm this with Grant later when possible
+	//it off of it as an attempt and confirm this with Grant later when possible\
+
+	
 	for (int i = 0; i < dataSet.size(); ++i)
 	{
 		dataSet[i].erase(dataSet[i].end()-1);
 	}
+	
+	/*
 	Hyper_Surface surface(dataSet);
 	surface.make_Surface();
 	std::vector<double> test = ObservedGenerator(params);
 	bool out = surface.point_Is_In(test);
   	return out;
+	*/
+	std::vector<double> test = ObservedGenerator(params);
+	shift_points(dataSet, test);
+	Plane plane(dataSet);
+	std::vector<double> vect = plane.get_orthogonal();
+	bool out = check_vect(vect, dataSet);
+	return out;
+
 	/*	for (int i = 0; i < CoupledNvector.size(); i++) {
 			double distance = 0;
 			for (int j = 0; j < CoupledNvector[i].size()-1; j++) {
@@ -411,16 +473,17 @@ int main()
 	//  nfpercentaim = nfpercentaim + ObservedGenerator(parametervector)[i]*ObservedGenerator(parametervector)[i];
 	//}
 	//nfpercentaim = std::sqrt(nfpercentaim);
-	double lowerLimit = .001;
-	double upperLimit = 1;
-	double numberOfSegments = 100;
+	double lowerLimit = 4;
+	double upperLimit = 24;
+	double numberOfSegments = 200;
+	int genNum = 1000000;
 	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
 	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
 	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
 	//std::cout << "Lambda = 7.31 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[1] << std::endl;
 	//std::cout << "Lambda = 7.76 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[1] << std::endl;
 	for (int i = 0; i<numberOfSegments; i++) {
-		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector)
+		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector, genNum)
 			<< std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
 	}
 	return 0;

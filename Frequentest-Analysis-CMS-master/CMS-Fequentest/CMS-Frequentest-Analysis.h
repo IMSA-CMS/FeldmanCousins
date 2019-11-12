@@ -4,6 +4,9 @@
 //Factorial Function
 double long factorial(int number);
 
+//Magnitude of vect
+double magnitude(std::vector<double> vect);
+
 //Given the parameters, a bin number, and a limit, calculates mu.
 double newmufunction(std::vector<double> params, int munumber, double Beta);
 
@@ -28,8 +31,20 @@ bool VectorSortingAlg(std::vector<double> i, std::vector<double> j);
 //Sorts vectors of doubles by their first elements.
 bool FirstVectorSortingAlg(std::vector<double> i, std::vector<double> j);
 
-//
-bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params);
+//Subtracts each point in data by shift
+void shift_points(std::vector<std::vector<double>> &data, std::vector<double> shift);
+
+//Takes the dot product between v1 and v2
+double dot(std::vector<double> v1, std::vector<double> v2);
+
+std::vector<double> flip_vect(std::vector<double> v1);
+
+//Checks if vect describes a plane which has all points on one side of it
+bool check_vect(std::vector<double> vect, std::vector<std::vector<double>>& data, bool flip = false);
+
+
+//Given an L, returns the 95% bound for the FOMs using the other functions
+bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params,int GeneratedNumber);
 
 //Takes an input "matrix" and outputs a solution vector for the nullspace via guassian elimination
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> matrix);
