@@ -1,5 +1,6 @@
 #pragma once
 #include "CMS-Frequentest-Analysis.h"
+#include "Matrix.cpp"
 class Plane
 {
 
@@ -12,10 +13,12 @@ public:
 	// Finds the cosine between the plane and vect
 	double cosine_theta(std::vector<double> vect);
 	std::vector<double> get_orthogonal() { return orthogonal; }
+	bool get_split() { return split; }
 
 private:
 	std::vector<std::vector<double>> points;
 	std::vector<double> orthogonal;
+	bool split = false;
 
 };
 

@@ -15,7 +15,8 @@
 //#include "Hyper_Surface.h"
 #include "CMS-Frequentest-Analysis.h"
 #include <algorithm>
-#include "Plane.h"
+#include "Matrix.cpp"
+#include "Rotating_Plane.h"
 
 
 double long factorial(int number) {
@@ -36,16 +37,12 @@ double magnitude(std::vector<double> vect)
 	return sqrt(square_sum);
 }
 
-
-
 double newmufunction(std::vector<double> params, int munumber, double Beta) {
 	double newmu = params[9 * munumber + 2] + params[9 * munumber + 3] * Beta + params[9 * munumber + 4] * Beta*Beta + params[9 * munumber + 5] + params[9 * munumber + 6];
 	return newmu;
 }
 
-
-
-int PE_Generator(double mean)
+long long int PE_Generator(double mean)
 {
 	std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	std::poisson_distribution<long> distribution(mean);
@@ -130,7 +127,7 @@ void shift_points(std::vector<std::vector<double>>& data, std::vector<double> sh
 double dot(std::vector<double> v1, std::vector<double> v2)
 {
 	double sum = 0;
-	for (unsigned int i = 0; i < v1.size(); ++i)
+	for (unsigned i = 0; i < v1.size(); ++i)
 	{
 		sum += v1[i] * v2[i];
 	}
@@ -146,18 +143,26 @@ std::vector<double> flip_vect(std::vector<double> v1)
 	return v1;
 }
 
-bool check_vect(std::vector<double> vect, std::vector<std::vector<double>>& data, bool flip)
+long int in_front(std::vector<double> vect, std::vector<std::vector<double>>& data)
 {
-	for (unsigned int i = 0; i < data.size(); ++i)
+	long int front = 0;
+	const double small = 0.00000001;
+	for (unsigned i = 0; i < data.size(); ++i)
 	{
-		if (dot(vect, data[i]) < 0)
-		{
-			if (!flip && check_vect(flip_vect(vect), data, true))
-				return true;
-			return false;
-		}
+		if (dot(vect, data[i]) > small)
+			++front;
 	}
-	return true;
+	return front;
+}
+
+bool check_vect(std::vector<double> vect, std::vector<std::vector<double>>& data)
+{
+	double front = in_front(vect, data);
+	if (front == 0 || front == data.size())
+	{
+		return true;
+	}
+	return false;
 }
 
 
@@ -200,9 +205,9 @@ bool check_vect(std::vector<double> vect, std::vector<std::vector<double>>& data
 //}
 
 
-bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params,int GeneratedNumber) {
+bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> params, int GeneratedNumber) {
 	int PEnumber = GeneratedNumber;
-	double fivep = 0.05*PEnumber;
+	double fivep = 0.05 * PEnumber;
 	int binnumber = params.size() / 9;
 	int closepointnumber = binnumber * 10;
 	double pointdistance = 0;
@@ -211,11 +216,11 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	//std::vector<std::vector<double> > CloseNvector(closepointnumber);
 	std::vector<std::vector<double> > Nvector(PEnumber);
 	std::vector<double> DistanceVector;
-	for (int i = 0; i<PEnumber; i++) {
+	for (int i = 0; i < PEnumber; i++) {
 		Nvector[i].resize(binnumber);
 		CoupledNvector[i].resize(binnumber + 1);
 		//CloseNvector.resize(binnumber + 1);
-		for (int j = 0; j<binnumber; j++) {
+		for (int j = 0; j < binnumber; j++) {
 			Nvector[i][j] = PE_Generator(newmufunction(params, j, LimitGuess));
 			CoupledNvector[i][j] = Nvector[i][j];
 		}
@@ -242,25 +247,29 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	//Honestly I'm not sure about this but I think that the first element of CoupledNvector is not important because it just increments so I'm going to strip
 	//it off of it as an attempt and confirm this with Grant later when possible\
 
-	
+
 	for (int i = 0; i < dataSet.size(); ++i)
 	{
-		dataSet[i].erase(dataSet[i].end()-1);
+		dataSet[i].erase(dataSet[i].end() - 1);
 	}
-	
+
 	/*
 	Hyper_Surface surface(dataSet);
 	surface.make_Surface();
 	std::vector<double> test = ObservedGenerator(params);
 	bool out = surface.point_Is_In(test);
-  	return out;
+	return out;
 	*/
+
 	std::vector<double> test = ObservedGenerator(params);
 	shift_points(dataSet, test);
-	Plane plane(dataSet);
-	std::vector<double> vect = plane.get_orthogonal();
-	bool out = check_vect(vect, dataSet);
-	return out;
+	std::vector<Point> pointSet;
+	for (int i = 0; i < dataSet.size(); ++i)
+	{
+		pointSet.push_back(Point(dataSet[i]));
+	}
+	Rotating_Plane rPlane(pointSet);
+	return rPlane.checkingPoints();
 
 	/*	for (int i = 0; i < CoupledNvector.size(); i++) {
 			double distance = 0;
@@ -336,46 +345,8 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	//return(bad);
 }
 
-std::vector<std::vector<double>> RowSwap(std::vector<std::vector<double>> inmatrix, int row1, int row2) {
-	std::vector<double> placeholder;
-	std::vector<std::vector<double>> matrix = inmatrix;
-	for (int i = 0; i < matrix.size(); i++) {
-		placeholder.push_back(matrix[i][row1]);
-		matrix[i][row1] = matrix[i][row2];
-		matrix[i][row2] = placeholder[i];
-	}
-	return matrix;
-}
 
-std::vector<std::vector<double>> Transpose(std::vector<std::vector<double>> matrix) {
-	std::vector<std::vector<double>> outmatrix;
-	outmatrix.resize(matrix[0].size());
-	for (int i = 0; i < outmatrix.size(); i++)
-		outmatrix[i].resize(matrix.size());
-	for (int i = 0; i < matrix.size(); i++) {
-		for (int j = 0; j < matrix[i].size(); j++) {
-			outmatrix[j][i] = matrix[i][j];
-		}
-	}
-	return outmatrix;
-}
-
-
-std::vector<std::vector<double>> RowAdd(std::vector<std::vector<double>> inmatrix, int row1, int row2, int zeroindex) {
-	std::vector<std::vector<double>> matrix = inmatrix;
-	double factor = matrix[zeroindex][row2] / matrix[zeroindex][row1];
-	for (int i = 0; i < matrix.size(); i++) {
-		matrix[i][row2] = matrix[i][row2] - (factor * matrix[i][row1]);
-	}
-	for (int i = 0; i <= zeroindex; ++i)
-	{
-		matrix[i][row2] = 0;
-	}
-	return matrix;
-}
-
-
-
+/*
 std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) 
 {
 	std::vector<std::vector<double>> matrix = inmatrix;
@@ -456,37 +427,110 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatr
 	}
 	return out;
 }
+*/
+
+
+std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix)
+{
+	std::vector<std::vector<double>> matrix = inmatrix;
+	unsigned int row = matrix.size();
+	unsigned int column = matrix[0].size();
+	
+	to_reduced_row_echelon_form(matrix);
+
+	
+
+
+	std::vector<double> null_space(matrix[0].size(),0);
+	auto last_row = matrix[matrix.size() - 1];
+
+	//build the null space to work with the last row
+	if (last_row[last_row.size() - 1] == 0)
+		null_space[null_space.size()-1] = 1;
+
+	else if (last_row[last_row.size() - 2] == 0)
+		null_space[null_space.size()-2] = 1;
+	else
+	{
+		null_space[null_space.size() - 2] = -last_row[last_row.size() - 1];
+		null_space[null_space.size() - 1] = last_row[last_row.size() - 2];
+	}
+		
+	//build the rest of the null space
+	for (int i = matrix.size() - 2; i >= 0; --i)
+	{
+		if (matrix[i][i] == 0)
+		{
+			std::vector<double> null_space(matrix[0].size(), 0);
+			null_space[i] = 1;
+		}
+		else
+		{
+			double sum = 0;
+			for (unsigned j = 0; j < null_space.size(); ++j)
+			{
+				sum += null_space[j] * matrix[i][j];
+			}
+			double new_term = -1 * sum / matrix[i][i];
+			null_space[i] = new_term;
+		}
+		
+	}
+	return null_space;
+}
+
+
 
 
 
 int main()
 {
+
+
+	std::vector<Point> testPoints;
+	std::vector<double> pt1{ 1, 2, 3 };
+	Point PT1{ pt1 };
+	testPoints.push_back(PT1);
+	std::vector<double> pt2{ 3, 0, 1 };
+	Point PT2{ pt2 };
+	testPoints.push_back(PT2);
+	std::vector<double> pt3{ 1, 1, 1 };
+	Point PT3{ pt3 };
+	testPoints.push_back(PT3);
+	Rotating_Plane rplane{ testPoints };
+	return rplane.checkingPoints();
+
+
+	/*
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
-	parameterfile.open("testtocompare.txt");
-	while (std::getline(parameterfile, line)) {
+	parameterfile.open("bintest.txt");
+	while (std::getline(parameterfile, line)) 
 		parametervector.push_back(std::stod(line));
-	}
+
 	//double nfpercentaim = 0;
 	//for(int i=0; i<parametervector.size()/9; i++){
 	//  nfpercentaim = nfpercentaim + ObservedGenerator(parametervector)[i]*ObservedGenerator(parametervector)[i];
 	//}
-	//nfpercentaim = std::sqrt(nfpercentaim);
-	double lowerLimit = 4;
-	double upperLimit = 24;
-	double numberOfSegments = 200;
-	int genNum = 1000000;
+	//nfpercentaim = std::sqrtluw(nfpercentaim);
+	double lowerLimit = 10;
+	double upperLimit = 20;
+	double numberOfSegments = 100;
+	int genNum = 10000;
 	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
 	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
 	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
 	//std::cout << "Lambda = 7.31 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[1] << std::endl;
 	//std::cout << "Lambda = 7.76 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[1] << std::endl;
 	for (int i = 0; i<numberOfSegments; i++) {
-		std::cout << NEW_ninetyfivepercentgenerator(lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments, parametervector, genNum)
-			<< std::endl << lowerLimit + (upperLimit - lowerLimit)*i / numberOfSegments << std::endl << std::endl;
+		double lambda = lowerLimit + (upperLimit - lowerLimit) * i / numberOfSegments;
+		double beta = 1 / (lambda * lambda);
+		std::cout << NEW_ninetyfivepercentgenerator(beta, parametervector, genNum)
+			<< std::endl << lambda << std::endl << std::endl;
 	}
 	return 0;
+	*/
 }
 
 

@@ -1,3 +1,5 @@
+//TAKES A CSV AND CONVERTS IT INTO A USABLE FILE FORMAT
+
 #pragma once
 #include <vector>
 #include <sstream>
