@@ -12,11 +12,9 @@
 #include <fstream>
 #include <vector>
 #include <limits>
-//#include "Hyper_Surface.h"
 #include "CMS-Frequentest-Analysis.h"
 #include <algorithm>
 #include "Matrix.cpp"
-#include "Rotating_Plane.h"
 #include "Orthogonal_Plane.h"
 
 
@@ -317,23 +315,10 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 		temp.clear();
 	}
 
-	//Honestly I'm not sure about this but I think that the first element of CoupledNvector is not important because it just increments so I'm going to strip
-	//it off of it as an attempt and confirm this with Grant later when possible\
-
-
 	for (int i = 0; i < dataSet.size(); ++i)
 	{
 		dataSet[i].erase(dataSet[i].end() - 1);
 	}
-
-	/*
-	Hyper_Surface surface(dataSet);
-	surface.make_Surface();
-	std::vector<double> test = ObservedGenerator(params);
-	bool out = surface.point_Is_In(test);
-	return out;
-	*/
-
 	std::vector<double> test = ObservedGenerator(params);
 	shift_points(dataSet, test);
 	std::vector<std::vector<double>> pointSet;
@@ -341,8 +326,6 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 	{
 		pointSet.push_back(unit_vect(dataSet[i]));
 	}
-	//Rotating_Plane rPlane(pointSet);
-	//return rPlane.checkingPoints();
 	Orthogonal_Plane cPlane(pointSet);
 	return cPlane.Check_Plane();
 
@@ -421,91 +404,10 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 }
 
 
-/*
-std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix) 
-{
-	std::vector<std::vector<double>> matrix = inmatrix;
-	matrix = Transpose(matrix);
-	std::vector<double> out(matrix.size());
-	bool nonZero = true;
-	for (int i = 0; i < matrix[0].size(); ++i)
-	{
-		if (matrix[i][i] == 0)
-		{
-			nonZero = false;
-			for (int j = i; j < matrix[0].size(); ++j)
-			{
-				if (matrix[i][j] != 0)
-				{
-					matrix = RowSwap(matrix, i, j);
-					nonZero = true;
-					break;
-				}
-			}
-		}
-		if (nonZero)
-		{
-			for (int j = i + 1; j < matrix[0].size(); ++j)
-			{
-				matrix = RowAdd(matrix, i, j, i);
-			}
-		}
-	}
-
-	std::vector<bool> pivots(matrix.size());
-	for (int i = 0; i < matrix[0].size(); ++i)
-	{
-		for (int j = 0; j < matrix.size(); ++j)
-		{
-			if (matrix[j][i] != 0)
-			{
-				pivots[j] = true;
-				break;
-			}
-		}
-	}
-
-	for (int i = 0; i < pivots.size(); ++i)
-	{
-		if (!pivots[i])
-		{
-			out[i] = 1;
-			break;
-		}
-	}
-	double constant;
-	int firstNonZero = 0;
-	for (int i = matrix[0].size() - 1; i >= 0; --i)
-	{
-		constant = 0;
-		for (int j = 0; j < matrix.size(); ++j)
-		{
-			constant += matrix[j][i] * out[j];
-		}
-		for (int j = 0; j < matrix.size(); ++j)
-		{
-			if (matrix[j][i] != 0)
-			{
-				firstNonZero = j;
-				break;
-			}
-		}  
-		if (i != matrix[0].size() - 1 || firstNonZero != matrix.size() - 1)
-		{
-			if (-1 * (constant / matrix[firstNonZero][i]) > 100000)
-			{
-				continue;
-			}
-			out[firstNonZero] = -1 * (constant / matrix[firstNonZero][i]);
-			
-		}
-	}
-	return out;
-}
-*/
 
 
-std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix)
+
+/*std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatrix)
 {
 	std::vector<std::vector<double>> matrix = inmatrix;
 	unsigned int row = matrix.size();
@@ -553,31 +455,13 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatr
 	}
 	return null_space;
 }
-
+*/
 
 
 
 
 int main()
 {
-	/*
-
-	std::vector<Point> testPoints;
-	std::vector<double> pt1{ 1, 2, 3 };
-	Point PT1{ pt1 };
-	testPoints.push_back(PT1);
-	std::vector<double> pt2{ 3, 0, 1 };
-	Point PT2{ pt2 };
-	testPoints.push_back(PT2);
-	std::vector<double> pt3{ 1, 1, 1 };
-	Point PT3{ pt3 };
-	testPoints.push_back(PT3);
-	PlaneChecker cplane{ testPoints };
-	Rotating_Plane rplane{ testPoints };
-	
-	return cplane.existsHalfSpace();
-	*/
-
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
@@ -593,7 +477,7 @@ int main()
 	double lowerLimit = 20;
 	double upperLimit = 30;
 	double numberOfSegments = 100;
-	int genNum = 10000;
+	int genNum = 100000;
 	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
 	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
 	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
@@ -611,12 +495,12 @@ int main()
 
 
 //EE BB Lambda 10 DesLL
-//		Frequentist		Bayesian	Half-Space
-//		 15.47			21.14		25.5
-//
-//BIN 1: 7.01			4.02
-//BIN 2: 11.97			6.40
-//BIN 3: 11.26			9.50
-//BIN 4: 15.90			15.78
-//BIN 5: 19.94			20.71
-//BIN 6: 14.57			16.21
+//		Frequentist		Half-Space	Bayesian	
+//		 15.47			25.5		21.14		
+//	
+//BIN 1: 7.01			7.01		4.02
+//BIN 2: 11.97			11.97		6.40
+//BIN 3: 11.26			11.26		9.50
+//BIN 4: 15.90			15.90		15.78
+//BIN 5: 19.94			19.94		20.71
+//BIN 6: 14.57			14.57		16.21

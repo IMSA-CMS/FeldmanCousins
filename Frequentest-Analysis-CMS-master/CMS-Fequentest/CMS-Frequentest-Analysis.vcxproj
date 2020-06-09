@@ -153,23 +153,17 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="csvConverter.h" />
     <ClInclude Include="CMS-Frequentest-Analysis.h" />
-    <ClInclude Include="Hyper_Plane.h" />
-    <ClInclude Include="Hyper_Surface.h" />
     <ClInclude Include="Orthogonal_Plane.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="Rotating_Plane.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CMS-Frequentest-Analysis.cpp" />
     <ClCompile Include="csvConverter.cpp" />
-    <ClCompile Include="Hyper_Plane.cpp" />
-    <ClCompile Include="Hyper_Surface.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Orthogonal_Plane.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Rotating_Plane.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
