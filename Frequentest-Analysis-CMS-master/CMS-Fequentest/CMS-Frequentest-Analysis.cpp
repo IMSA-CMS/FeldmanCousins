@@ -17,6 +17,7 @@
 #include <algorithm>
 #include "Matrix.cpp"
 #include "Rotating_Plane.h"
+#include "Orthogonal_Plane.h"
 
 
 double long factorial(int number) {
@@ -134,6 +135,66 @@ double dot(std::vector<double> v1, std::vector<double> v2)
 	return sum;
 }
 
+std::vector<double> scalar_product(double s, std::vector<double> v)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		returnVector.push_back(v[i] * s);
+	}
+	return returnVector;
+}
+
+std::vector<double> elementwise_product(std::vector<double> v1, std::vector<double> v2)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v1.size(); ++i)
+	{
+		returnVector.push_back(v1[i] * v2[i]);
+	}
+	return returnVector;
+}
+
+std::vector<double> elementwise_division(std::vector<double> v1, std::vector<double> v2)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v1.size(); ++i)
+	{
+		returnVector.push_back(v1[i] / v2[i]);
+	}
+	return returnVector;
+}
+
+std::vector<double> elementwise_sqrt(std::vector<double> v)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		returnVector.push_back(sqrt(v[i]));
+	}
+	return returnVector;
+}
+
+std::vector<double> elementwise_constant_sum(double s, std::vector<double> v)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		returnVector.push_back(v[i] + s);
+	}
+	return returnVector;
+}
+
+std::vector<double> vector_sum(std::vector<double> v1, std::vector<double> v2)
+{
+	std::vector<double> returnVector;
+	for (int i = 0; i < v1.size(); ++i)
+	{
+		returnVector.push_back(v1[i] + v2[i]);
+	}
+	return returnVector;
+}
+
 std::vector<double> flip_vect(std::vector<double> v1)
 {
 	for (int i = 0; i < v1.size(); ++i)
@@ -141,6 +202,18 @@ std::vector<double> flip_vect(std::vector<double> v1)
 		v1[i] *= -1;
 	}
 	return v1;
+}
+
+std::vector<double> unit_vect(std::vector<double> v)
+{
+	double sum = 0;
+	for (int i = 0; i < v.size(); ++i)
+		sum += v[i]*v[i];
+	sum = sqrt(sum);
+	std::vector<double> outvec;
+	for (int i = 0; i < v.size(); ++i)
+		outvec.push_back(v[i] / sum);
+	return outvec;
 }
 
 long int in_front(std::vector<double> vect, std::vector<std::vector<double>>& data)
@@ -263,13 +336,15 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 
 	std::vector<double> test = ObservedGenerator(params);
 	shift_points(dataSet, test);
-	std::vector<Point> pointSet;
+	std::vector<std::vector<double>> pointSet;
 	for (int i = 0; i < dataSet.size(); ++i)
 	{
-		pointSet.push_back(Point(dataSet[i]));
+		pointSet.push_back(unit_vect(dataSet[i]));
 	}
-	Rotating_Plane rPlane(pointSet);
-	return rPlane.checkingPoints();
+	//Rotating_Plane rPlane(pointSet);
+	//return rPlane.checkingPoints();
+	Orthogonal_Plane cPlane(pointSet);
+	return cPlane.Check_Plane();
 
 	/*	for (int i = 0; i < CoupledNvector.size(); i++) {
 			double distance = 0;
@@ -485,7 +560,7 @@ std::vector<double> gaussian_Elimination(std::vector<std::vector<double>> inmatr
 
 int main()
 {
-
+	/*
 
 	std::vector<Point> testPoints;
 	std::vector<double> pt1{ 1, 2, 3 };
@@ -497,15 +572,16 @@ int main()
 	std::vector<double> pt3{ 1, 1, 1 };
 	Point PT3{ pt3 };
 	testPoints.push_back(PT3);
+	PlaneChecker cplane{ testPoints };
 	Rotating_Plane rplane{ testPoints };
-	return rplane.checkingPoints();
+	
+	return cplane.existsHalfSpace();
+	*/
 
-
-	/*
 	std::string line;
 	std::vector<double> parametervector;
 	std::fstream parameterfile;
-	parameterfile.open("bintest.txt");
+	parameterfile.open("correctedparameterfile.txt");
 	while (std::getline(parameterfile, line)) 
 		parametervector.push_back(std::stod(line));
 
@@ -514,8 +590,8 @@ int main()
 	//  nfpercentaim = nfpercentaim + ObservedGenerator(parametervector)[i]*ObservedGenerator(parametervector)[i];
 	//}
 	//nfpercentaim = std::sqrtluw(nfpercentaim);
-	double lowerLimit = 10;
-	double upperLimit = 20;
+	double lowerLimit = 20;
+	double upperLimit = 30;
 	double numberOfSegments = 100;
 	int genNum = 10000;
 	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
@@ -530,14 +606,13 @@ int main()
 			<< std::endl << lambda << std::endl << std::endl;
 	}
 	return 0;
-	*/
 }
 
 
 
 //EE BB Lambda 10 DesLL
-//		Frequentist		Bayesian
-//		 15.47			21.14
+//		Frequentist		Bayesian	Half-Space
+//		 15.47			21.14		25.5
 //
 //BIN 1: 7.01			4.02
 //BIN 2: 11.97			6.40

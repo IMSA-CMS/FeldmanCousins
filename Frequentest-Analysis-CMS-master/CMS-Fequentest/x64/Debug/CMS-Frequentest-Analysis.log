@@ -1,4 +1,67 @@
-﻿  Point.cpp
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Point.h(16,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Point.cpp(21,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  CMS-Frequentest-Analysis.cpp
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\point.h(22,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(48,96): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=std::chrono::system_clock::rep
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(83,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(99,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(284,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(297,32): warning C4244: '=': conversion from '__int64' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(511,34): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(512,40): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(535,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(57,1): warning C4267: 'return': conversion from 'size_t' to 'matrix_traits<MatrixType>::index_type', possible loss of data
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(56): message : while compiling class template member function 'matrix_traits<MatrixType>::index_type matrix_traits<MatrixType>::max_column(const MatrixType &)'
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(209): message : see reference to function template instantiation 'matrix_traits<MatrixType>::index_type matrix_traits<MatrixType>::max_column(const MatrixType &)' being compiled
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(202): message : see reference to class template instantiation 'matrix_traits<MatrixType>' being compiled
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(514): message : see reference to function template instantiation 'void to_reduced_row_echelon_form<std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>>(MatrixType &)' being compiled
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(49,1): warning C4267: 'return': conversion from 'size_t' to 'matrix_traits<MatrixType>::index_type', possible loss of data
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(48): message : while compiling class template member function 'matrix_traits<MatrixType>::index_type matrix_traits<MatrixType>::max_row(const MatrixType &)'
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
+C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Matrix.cpp(207): message : see reference to function template instantiation 'matrix_traits<MatrixType>::index_type matrix_traits<MatrixType>::max_row(const MatrixType &)' being compiled
+          with
+          [
+              MatrixType=std::vector<std::vector<double,std::allocator<double>>,std::allocator<std::vector<double,std::allocator<double>>>>
+          ]
   CMS-Frequentest-Analysis.vcxproj -> C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe

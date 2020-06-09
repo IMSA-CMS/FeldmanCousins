@@ -5,6 +5,11 @@
 #include "Matrix.cpp"
 #include <cmath>  
 #include "Constants.h"
+Point::Point()
+{
+	cartesian = std::vector<double>(1, 0);
+	spherical = std::vector<double>(1, 0);
+}
 Point::Point(std::vector<double> point)
 {
 	cartesian = point;
@@ -12,8 +17,25 @@ Point::Point(std::vector<double> point)
 	update_cartesian();
 }
 
+Point::Point(bool isSphere, std::vector<double> point)
+{
+	if (isSphere)
+	{
+		spherical = point;
+		update_cartesian();
+	}
+	else
+	{
+		cartesian = point;
+		update_sphere();
+		update_cartesian();
+	}
+}
+
 void Point::update_sphere()
 {
+	if (cartesian.size() == 1)
+		return;
 	std::vector<double> sphere;
 	for (int i = 0; i < cartesian.size() - 2; ++i)
 	{
@@ -38,15 +60,24 @@ void Point::update_sphere()
 	spherical = sphere;
 }
 
+void Point::update_sphere(int index, double value)
+{
+	spherical[index] = value;
+	update_cartesian();
+}
+
 void Point::update_cartesian()
 {
+	if (cartesian.size() <= 1)
+		return;
+	cartesian = vector<double>(spherical.size()+1, 0);
 	cartesian[0] = cos(spherical[0]);
 	for (int i = 1; i < spherical.size(); ++i)
 	{
-		double product = sin(spherical[i]);
+		double product = cos(spherical[i]);
 		for (int j = 0; j < i; ++j)
 		{
-			product *= cos(spherical[j]);
+			product *= sin(spherical[j]);
 		}
 		cartesian[i] = product;
 	}

@@ -37,7 +37,24 @@ void shift_points(std::vector<std::vector<double>> &data, std::vector<double> sh
 //Takes the dot product between v1 and v2
 double dot(std::vector<double> v1, std::vector<double> v2);
 
+//Takes the scalar product of s and v
+std::vector<double> scalar_product(double s, std::vector<double> v);
+
+//Takes the elementwise product of v1 and v2
+std::vector<double> elementwise_product(std::vector<double> v1, std::vector<double> v2);
+
+std::vector<double> elementwise_division(std::vector<double> v1, std::vector<double> v2);
+
+std::vector<double> elementwise_sqrt(std::vector<double> v);
+
+std::vector<double> elementwise_constant_sum(double s, std::vector<double> v);
+
+//Takes the vector sum of v1 and v2
+std::vector<double> vector_sum(std::vector<double> v1, std::vector<double> v2);
+
 std::vector<double> flip_vect(std::vector<double> v1);
+
+std::vector<double> unit_vect(std::vector<double> v);
 
 //Finds the number of points in the direction of the vector
 long int in_front(std::vector<double> vect, std::vector<std::vector<double>>& data);
