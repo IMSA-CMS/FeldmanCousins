@@ -28,7 +28,7 @@ bool Orthogonal_Plane::Check_Plane()
 	const double alpha = 0.001;
 	const double beta1 = 0.9;
 	const double beta2 = 0.999;
-	const double epsilon = 1E-6;
+	const double epsilon = 1E-8;
 	vector<double> m(nDims-1, 0);
 	vector<double> v(nDims-1, 0);
 	double oldLoss;

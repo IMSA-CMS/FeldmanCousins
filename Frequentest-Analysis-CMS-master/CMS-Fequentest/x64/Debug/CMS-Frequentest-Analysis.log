@@ -1,24 +1,34 @@
-﻿  CMS-Frequentest-Analysis.cpp
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\point.h(17,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(46,96): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+﻿  stdafx.cpp
+  CMS-Frequentest-Analysis.cpp
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\point.h(17,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(46,96): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
           with
           [
               _Rep=std::chrono::system_clock::rep
           ]
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(81,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(81,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=double
           ]
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(97,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(97,59): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=double
           ]
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(282,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(295,32): warning C4244: '=': conversion from '__int64' to '_Ty', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(282,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\CMS-Frequentest-Analysis.cpp(295,32): warning C4244: '=': conversion from '__int64' to '_Ty', possible loss of data
           with
           [
               _Ty=double
           ]
-  CMS-Frequentest-Analysis.vcxproj -> C:\Users\mvayn\source\repos\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe
+  csvConverter.cpp
+  Matrix.cpp
+  Orthogonal_Plane.cpp
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\point.h(17,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Orthogonal_Plane.cpp(7,28): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Point.cpp
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Point.h(17,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\Point.cpp(43,38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  CMS-Frequentest-Analysis.vcxproj -> C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\CMS-Fequentest\x64\Debug\CMS-Frequentest-Analysis.exe

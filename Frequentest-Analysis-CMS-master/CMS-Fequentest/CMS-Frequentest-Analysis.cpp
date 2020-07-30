@@ -302,7 +302,9 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 		//std::cout << NEW_LN_Likelihood_Function_Background(params, Nvector[i]) << std::endl;
 	}
 	std::sort(CoupledNvector.begin(), CoupledNvector.end(), VectorSortingAlg);
+	// Sorts all of the likelihoods
 	CoupledNvector.erase(CoupledNvector.begin(), CoupledNvector.begin() + (int)fivep);
+	// Gets rid of 5% of the data
 	std::vector<std::vector<double>> dataSet;
 	std::vector<double> temp;
 	for (int i = 0; i < CoupledNvector.size(); ++i)
@@ -320,7 +322,7 @@ bool NEW_ninetyfivepercentgenerator(double LimitGuess, std::vector<double> param
 		dataSet[i].erase(dataSet[i].end() - 1);
 	}
 	std::vector<double> test = ObservedGenerator(params);
-	shift_points(dataSet, test);
+	shift_points(dataSet, test); //Shifting the points so that the origin is the observed point
 	std::vector<std::vector<double>> pointSet;
 	for (int i = 0; i < dataSet.size(); ++i)
 	{
@@ -468,27 +470,34 @@ int main()
 	parameterfile.open("correctedparameterfile.txt");
 	while (std::getline(parameterfile, line)) 
 		parametervector.push_back(std::stod(line));
-
+	
 	//double nfpercentaim = 0;
 	//for(int i=0; i<parametervector.size()/9; i++){
 	//  nfpercentaim = nfpercentaim + ObservedGenerator(parametervector)[i]*ObservedGenerator(parametervector)[i];
 	//}
 	//nfpercentaim = std::sqrtluw(nfpercentaim);
-	double lowerLimit = 20;
-	double upperLimit = 30;
-	double numberOfSegments = 100;
-	int genNum = 100000;
-	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
-	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
-	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
-	//std::cout << "Lambda = 7.31 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[1] << std::endl;
-	//std::cout << "Lambda = 7.76 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[1] << std::endl;
-	for (int i = 0; i<numberOfSegments; i++) {
+	/*
+	double lowerLimit = 7;
+	double upperLimit = 20;
+	int numberOfSegments = 13;
+	int genNum = 10000000;
+	for (int i = 0; i<numberOfSegments; ++i) {
 		double lambda = lowerLimit + (upperLimit - lowerLimit) * i / numberOfSegments;
 		double beta = 1 / (lambda * lambda);
 		std::cout << NEW_ninetyfivepercentgenerator(beta, parametervector, genNum)
 			<< std::endl << lambda << std::endl << std::endl;
 	}
+	*/
+	const double lambdaTwo = 40;
+	int genNum = 100000000;
+	std::cout << NEW_ninetyfivepercentgenerator(1 / (lambdaTwo * lambdaTwo), parametervector, genNum)
+		<< std::endl << lambdaTwo << std::endl << std::endl;
+	//Given an upper expected L and a number of segments to break it into, prints the segments that return the correct answer (95% FOM Limit = FOM for a pseudoexperiment returning Observed Values)
+	//std::cout << newmufunction(parametervector, 0, 0.01) << std::endl;
+	//std::cout << "Lambda = 10 Expected Value: " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[0] << "          " << NEW_ninetyfivepercentgenerator(0.01, parametervector)[1] << std::endl;
+	//std::cout << "Lambda = 7.31 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0187139406, parametervector)[1] << std::endl;
+	//std::cout << "Lambda = 7.76 Expected Value: " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[0] <<  "          " << NEW_ninetyfivepercentgenerator(0.0166064406, parametervector)[1] << std::endl;
+	
 	return 0;
 }
 

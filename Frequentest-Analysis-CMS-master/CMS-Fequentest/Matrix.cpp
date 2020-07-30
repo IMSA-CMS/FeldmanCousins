@@ -136,7 +136,7 @@ struct matrix_traits<vector<vector<double, double>, double>>
 };
 
 // Swap rows i and k of a matrix A
-// Note that due to the reference, both dimensions are preserved for
+// Note that due to the reference, both getDimensions are preserved for
 // built-in arrays
 template<typename MatrixType>
 void swap_rows(MatrixType& A,
