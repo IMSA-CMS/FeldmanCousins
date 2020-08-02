@@ -98,3 +98,6 @@ ThirdAnalyticParticleGraph::ThirdAnalyticParticleGraph(ChannelReader& iChannelRe
 	}
 	buildInitialBorders(Parent(initialBin, &parentStore));
 }
+
+//Necessary due to weird Visual Studio quirks
+namespace dummy {}

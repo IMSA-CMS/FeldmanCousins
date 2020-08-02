@@ -27,7 +27,7 @@ class Bin
 		int getDimensions() const { return dimensions; }
 
 		//Compares two Bins using the FeldmanCousins method
-		bool operator<(const Bin& other);
+		bool operator<(const Bin& other) const;
 
 		//Normalizes the bin with the given normalization factor
 		//(usually the maximum likelihood)

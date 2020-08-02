@@ -45,6 +45,9 @@
     <ClCompile Include="ThirdAnalyticParticleGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FourthAnalyticParticleGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SingleChannelPoissonDistribution.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdAnalyticParticleGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FourthAnalyticParticleGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

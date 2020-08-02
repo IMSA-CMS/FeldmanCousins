@@ -145,6 +145,7 @@
     <ClCompile Include="BasicChannel.cpp" />
     <ClCompile Include="BasicChannelReader.cpp" />
     <ClCompile Include="Bin.cpp" />
+    <ClCompile Include="FourthAnalyticParticleGraph.cpp" />
     <ClCompile Include="NeighborIterator.cpp" />
     <ClCompile Include="FrequentistAnalyticAnalysis.cpp" />
     <ClCompile Include="Legacy.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="BasicChannel.h" />
     <ClInclude Include="BasicChannelReader.h" />
     <ClInclude Include="Bin.h" />
+    <ClInclude Include="FourthAnalyticParticleGraph.h" />
     <ClInclude Include="NeighborIterator.h" />
     <ClInclude Include="Interval.h" />
     <ClInclude Include="Coordinate.h" />

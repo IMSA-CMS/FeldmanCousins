@@ -17,6 +17,7 @@
 #include "FirstAnalyticParticleGraph.h"
 #include "NeighborIterator.h"
 #include "SecondAnalyticParticleGraph.h"
+#include "FourthAnalyticParticleGraph.h"
 
 
 //Contains the main for the singleChannelPoissonDistribution case (for the first Distribution/Graph class)
@@ -79,6 +80,24 @@ int main07232020()
     {
         const double lambda = lower + (upper - lower) / nSegments * i;
         SecondAnalyticParticleGraph distribution(reader, 1 / (lambda * lambda));
+        std::cout << "Lambda: " << lambda << "\nInside: "
+            << distribution.checkConfidenceRegion(confidenceLevel)
+            << std::endl;
+    }
+    return 0;
+}
+
+//Contains the main for ThirdAnalyticParticleGraph.h
+int main08012020()
+{
+    BasicChannelReader reader("bin12.txt");
+    std::cout << std::boolalpha;
+    constexpr double lower = 9, upper = 11, confidenceLevel = 0.95;
+    constexpr int nSegments = 20;
+    for (int i = 0; i < nSegments; ++i)
+    {
+        const double lambda = lower + (upper - lower) / nSegments * i;
+        FourthAnalyticParticleGraph distribution(reader, 1 / (lambda * lambda));
         std::cout << "Lambda: " << lambda << "\nInside: "
             << distribution.checkConfidenceRegion(confidenceLevel)
             << std::endl;

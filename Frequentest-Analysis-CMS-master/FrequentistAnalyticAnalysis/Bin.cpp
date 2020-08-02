@@ -33,15 +33,18 @@ double Bin::calculateLnPoissonLikelihood(int n, double mu)
 	return n * std::log(mu) - mu - std::lgamma(n + 1);
 }
 
-bool Bin::operator<(const Bin& other)
+bool Bin::operator<(const Bin& other) const
 {
 	if (dimensions != other.dimensions)
-		throw std::runtime_error("Bins are not comparable as they do not have the same number of getDimensions.");
+		throw std::runtime_error("Bins are not comparable as they do not have the same number of dimensions.");
 	double cmpOne = 0, cmpTwo = 0;
 	for (int i = 0; i < dimensions; ++i)
 	{
-		cmpOne += (getLnLikelihood(i) - calculateLnPoissonLikelihood(getN(i), getN(i)));
-		cmpTwo += (other.getLnLikelihood(i) - calculateLnPoissonLikelihood(other.getN(i), other.getN(i)));
+		cmpOne += getLnLikelihood(i);
+		cmpTwo += other.getLnLikelihood(i);
+		//More complex implementation for systematics
+		//cmpOne += (getLnLikelihood(i) - calculateLnPoissonLikelihood(getN(i), getN(i))); 
+		//cmpTwo += (other.getLnLikelihood(i) - calculateLnPoissonLikelihood(other.getN(i), other.getN(i)));
 	}
 	return cmpOne < cmpTwo;
 }
