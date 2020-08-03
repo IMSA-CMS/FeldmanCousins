@@ -46,7 +46,7 @@ bool FourthAnalyticParticleGraph::lessThanCmpBin(const Bin& one, const Bin& two)
 void FourthAnalyticParticleGraph::buildBins(double confidenceLevel)
 {
 	bins.clear();
-	bins.push_back(initialBin->getAllN());
+	bins.insert(initialBin->getAllN());
 	borders = initialBorders;
 	double currentConfidenceLevel = std::exp(initialBin->getTotalLnLikelihood());
 	while (currentConfidenceLevel <= confidenceLevel)
@@ -58,8 +58,7 @@ void FourthAnalyticParticleGraph::promoteBin(double& currentConfidenceLevel)
 	auto promoted = std::prev(borders.end());
 	addNeighbors(promoted->getAllN());
 	currentConfidenceLevel += std::exp(promoted->getTotalLnLikelihood());
-	auto insertPoint = std::lower_bound(bins.begin(), bins.end(), promoted->getAllN(), lessThanCmpCoordinate);
-	bins.insert(insertPoint, promoted->getAllN());
+	bins.insert(promoted->getAllN());
 	borders.erase(promoted);
 }
 
@@ -70,7 +69,7 @@ void FourthAnalyticParticleGraph::addNeighbors(const Coordinate<int>& center)
 	for (NeighborIterator iterator(center); !iterator.isExhausted(); iterator.next())
 	{
 		auto current = iterator.getCurrent();
-		if (std::binary_search(bins.begin(), bins.end(), current, lessThanCmpCoordinate)) continue;
+		if (bins.find(current) != bins.end()) continue;
 		for (int i = 0; i < numberOfChannels; ++i)
 			nMuPairs.emplace_back(current[i], mu[i]);
 		borders.emplace(nMuPairs);

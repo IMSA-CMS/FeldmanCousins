@@ -16,8 +16,8 @@ int main()
 {
     BasicChannelReader reader("bin13.txt");
     std::cout << std::boolalpha;
-    constexpr double lower = 9, upper = 11, confidenceLevel = 0.95;
-    constexpr int nSegments = 1;
+    constexpr double lower = 10, upper = 11, confidenceLevel = 0.95;
+    constexpr int nSegments = 10;
     for (int i = 0; i < nSegments; ++i)
     {
         const double lambda = lower + (upper - lower) / nSegments * i;

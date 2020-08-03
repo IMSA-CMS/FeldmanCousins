@@ -23,7 +23,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.
           [
               _Ty=Bin::NMuPair
           ]
-C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\FrequentistAnalyticAnalysis\FourthAnalyticParticleGraph.h(80): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::emplace_back<double,const double&>(double &&,const double &)' being compiled
+C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master\FrequentistAnalyticAnalysis\FourthAnalyticParticleGraph.h(82): message : see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::emplace_back<double,const double&>(double &&,const double &)' being compiled
           with
           [
               _Ty=Bin::NMuPair
@@ -34,7 +34,7 @@ C:\Users\arifi\Documents\Programs\FeldmanCousins\Frequentest-Analysis-CMS-master
               ChannelReader=BasicChannelReader
           ]
   Generating code
-  1 of 856 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  6 of 881 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

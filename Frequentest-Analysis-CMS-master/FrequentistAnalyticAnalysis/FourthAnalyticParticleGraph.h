@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "Interval.h"
 #include "BasicChannelReader.h"
 #include <functional>
@@ -7,9 +6,9 @@
 #include <set>
 // FourthAnalyticParticleGraph.h: Creates a particle graph that builds its bins 
 // outward, and builds only the bins that it has to build. Similar
-// to ThirdAnalyticParticleGraph.h, but uses Sets and 
-// ordered vectors, and does not attempt
-// to delete unneeded bins. This will hopefully improve performance
+// to ThirdAnalyticParticleGraph.h, but uses Sets and does not attempt
+// to delete unneeded bins. This will hopefully (not just hopefully,
+// quite a bit as it turns out) improve performance
 // and scalability by reducing reallocations and improving on 
 // repeated insertion without duplicates.
 // This is the fourth, multi-channel version of SingleChannelPoissonDistribution.h.
@@ -44,12 +43,14 @@ class FourthAnalyticParticleGraph
 		Coordinate<int> observed;
 
 		using BinSet = std::set<Bin, std::function<bool(const Bin&, const Bin&)>>;
+		using CoordinateSet = std::set<Coordinate<int>, 
+			std::function<bool(const Coordinate<int>&, const Coordinate<int>&)>>;
 
 		// Stores initial bin and initial borders
 		std::unique_ptr<Bin> initialBin;
 		BinSet initialBorders{ lessThanCmpBin };
 		
-		std::vector<Coordinate<int>> bins;
+		CoordinateSet bins{ lessThanCmpCoordinate };
 		BinSet borders{ lessThanCmpBin };
 
 		// Builds the bins to the confidence level given

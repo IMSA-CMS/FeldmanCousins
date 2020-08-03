@@ -2,9 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\Frequentest-Analysis-CMS-master",
-    "\\Frequentest-Analysis-CMS-master\\CMS-Fequentest",
-    "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis"
+    "\\Frequentest-Analysis-CMS-master\\CMS-Fequentest\\x64\\Release",
+    "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis",
+    "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis\\x64\\Debug",
+    "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis\\x64\\Release"
   ],
-  "SelectedNode": "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis\\FrequentistAnalyticAnalysis.cpp",
+  "SelectedNode": "\\Frequentest-Analysis-CMS-master\\FrequentistAnalyticAnalysis\\FourthAnalyticParticleGraph.cpp",
   "PreviewInSolutionExplorer": false
 }
