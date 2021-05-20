@@ -16,7 +16,7 @@ When installing CLion, [use this guide for macOS](https://www.jetbrains.com/help
 
 1. Make sure that the a version of g++ compatible with C++17 is installed, as well as Intel's pthread and tbb that are compatible with C++17 (see this [StackOverflow answer](http://web.archive.org/web/20201116224311/https://stackoverflow.com/questions/51031060/are-c17-parallel-algorithms-implemented-already/55989883) for more information.)
 2. Download and install [CLion](https://www.jetbrains.com/clion/) for Linux.
-3. [Log into GitHub and clone this repository](https://www.jetbrains.com/help/clion/manage-projects-hosted-on-github.html), or clone this repository while having an GitHub SSH key on the command line.
+3. Clone this repository.
 4. Build and run!
 ### Other Workflows
 The workflows above are recommended for most people, but they are by no means the only ones. If you have another workflow or you want to come up with one, all the power to you! Just make sure you have these dependencies:
