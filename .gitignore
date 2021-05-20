@@ -1,6 +1,14 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Remenants of visual studio
+Browse.VC.opendb
 
-/Frequentest-Analysis-CMS-master/CMS-Fequentest/.vs/CMS-Frequentest-Analysis/v15/Browse.VC.opendb
-/Frequentest-Analysis-CMS-master/CMS-Fequentest/.vs/CMS-Frequentest-Analysis/v16/Browse.VC.opendb
+#Cmake builds (release and debug)
+cmake-build-release
+cmake-build-debug
+
+#Other builds
+x64
+debug
+Debug
+
+#CLion .idea files
+.idea
